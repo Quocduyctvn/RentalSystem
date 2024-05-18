@@ -1,0 +1,29 @@
+﻿@model RentalSystem.ViewModels.AppLoginVM;
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="container  d-flex justify-content-center mb-2 mt-4">
+   <form asp-action="Login" method="POST">
+        <div class="mt-1 rounded-2 p-3" style="width: 500px; background-color: rgb(226,226,226)">
+            <div class="row fw-bold fs-4 px-3 mb-2">Đăng nhập</div>
+            <div class="row text-uppercase px-3" style="font-size: 13px;">Tên đăng nhập:</div>
+            <div class="row px-3 mt-2">
+                <input type="text" asp-for="Name" class="form-control" placeholder="" />
+            </div>
+            <span asp-validation-for="Name" class="text-danger ms-2"></span>
+            <div class="row text-uppercase px-3" style="font-size: 13px;">Mật khẩu</div>
+            <div class="row px-3 mt-2">
+                <input type="password" asp-for="Password" class="form-control" placeholder="" />
+            </div>
+            <span asp-validation-for="Password" class="text-danger  ms-2"></span>
+            <div class="row text-uppercase px-3">
+                <button class="border border-none py-2 bg-primary rounded-2 hover-text-light fw-bold">Đăng nhập</button>
+            </div>
+            <div class="row px-3 mt-3">
+                <div class="col-auto text-primary"><a asp-action="ForgotPassword" class="text-primary text-decoration-none">Quên mật khẩu</a></div>
+                <div class="col-auto ms-auto"><a asp-action="Register" class="text-primary text-decoration-none">Tạo tài khoản mới</a></div>
+            </div>
+        </div>
+   </form>
+</div>

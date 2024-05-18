@@ -1,0 +1,561 @@
+﻿@using RentalSystem.ViewModels
+@model IEnumerable<RentalSystem.Models.AppPosts>
+
+@{
+	var ListPin = TempData["Pin"] as List<AppPinVM>;
+	var postSort = TempData["postSort"] as List<AppCategory>;
+	dynamic NoiBat = null;
+	dynamic Vip1 = null;
+	dynamic Vip2 = null;
+	dynamic Vip3 = null;
+	dynamic TinThuong = null;
+
+	if (postSort != null && postSort.Count >= 5)
+	{
+		NoiBat = postSort.FirstOrDefault();
+		Vip1 = postSort.Skip(1).FirstOrDefault();
+		Vip2 = postSort.Skip(2).FirstOrDefault();
+		Vip3 = postSort.Skip(3).FirstOrDefault();
+		TinThuong = postSort.Skip(4).FirstOrDefault();
+	}
+}
+
+
+@* thanh tìm kiếm  *@
+<div class="container">
+	<div class="col p-0 mx-auto">
+		<div class="row justify-content-center rounded-3 mt-2 pb-2" style="background-color: #febb02;">
+			<div class="col-auto p-1 mt-3" data-bs-toggle="modal" data-bs-target="#modelCategory">
+				<button class="btn border border-none bg-light px-4"><i class="fas fa-building"></i> <span class="selectItemCate">Phòng trọ, Nhà trọ</span> <i class="ms-4 fas fa-backspace"></i></button>
+			</div>
+			<div class="col-auto p-1 mt-3" data-bs-toggle="modal" data-bs-target="#modelPrice">
+				<button class="btn border border-none bg-light px-4"><span class=""> -- Chọn Giá -- </span></button>
+			</div>
+			<div class="col-auto  p-1 mt-3 me-1" data-bs-toggle="modal" data-bs-target="#modelArea">
+				<button class="btn border border-none bg-light px-4"><span class=""> -- Chọn Diện tích -- </span></button>
+			</div>
+			<div class="col-4 p-1 mt-2 mx-2">
+				<form asp-action="Index" asp-controller="Home">
+					<div class="row my-2">
+						<div class="col p-0">
+							<input type="text" name="keyword" placeholder="Tìm kiếm..." class="form-control" style="border-radius: 5px 0 0 5px;" />
+						</div>
+						<div class="col-auto p-0 me-0">
+							<button class="btn btn-primary" style="border-radius:0 5px 5px 0;"><i class="fas fa-search"></i></button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end bộ lọc  -->
+
+
+<!-- Product  -->
+<div class="container mt-3">
+	<div class="row">
+		<div class="col-xxl-8  pe-3 rounded-2" style="background-color:#ededed">
+			<div class="row mb-3">
+				<h4 class="fw-bold fs-5 mt-3 mb-0">Bài đăng yêu thích của bạn (@Model.Count())</h4>
+			</div>
+			@if(Model.Count() == 0)
+			{
+				<div class="row text-center">
+					<i class="far fa-heart" style="color: #FFD43B; font-size: 150px"></i>
+					<span>Danh sách yêu thích rỗng.</span>
+				</div>
+			}
+			@foreach (var itemPost in Model)
+			{
+				@if (NoiBat != null && NoiBat.IdCategory == itemPost.appCategory.IdCategory)
+				{
+
+					<div class="row ">
+
+						<div class="col-5 pe-0 my-1 position-relative" style="height: 250px">
+							<a asp-action="Detail" asp-controller="Post" asp-route-id="@itemPost.IdPost">
+								<span class="position-absolute fs-6 text-light" style="left: 30px; bottom: 10px">@itemPost.appImgPosts.Count ảnh</span>
+								<img src="@itemPost.Path" width="100%" height="250px" />
+							</a>
+							@{
+								int check = 0;
+								@foreach (var item in ListPin)
+								{
+									if (item.IdPost == itemPost.IdPost)
+									{
+										<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@itemPost.IdPost">
+											<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="fas fa-bookmark" style="color: #FFD43B;"></i></span>
+										</a>
+										check = 1;
+										break;
+									}
+								}
+								@if (check == 0)
+								{
+									<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@itemPost.IdPost">
+										<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="far fa-bookmark" style="color: #FFD43B;"></i></span>
+									</a>
+								}
+							}
+						</div>
+
+						<div class="col-7 ps-3  pe-4">
+							<div class="w-100 fw-bold text-danger ">
+								<div class="d-inline p-0 ">
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+								</div>
+								<div class="d-inline p-0 ps-2">
+									<a asp-action="Detail" asp-controller="Post" asp-route-id="@itemPost.IdPost" style="color: @itemPost.appCategory.TitleColor" class="text-decoration-none">
+										@itemPost.Title
+									</a>
+								</div>
+							</div>
+							<div class="row ms-1">
+								<div class="col-auto p-0 pe-3 text-success fw-bold">@string.Format("{0:#,0.#}", itemPost.RtalPrice / 1000000)  Triệu / @itemPost.ToTforRtalPrice</div>
+								<div class="col-auto p-0 pe-3">
+									<i class="fas fa-vector-square text-primary me-1"></i>@itemPost.Area  m<sup>2</sup>
+								</div>
+								<div class="col-auto p-0 fw-bold">
+									<i class="fas fa-map-marked-alt text-primary me-2"></i>  @itemPost.appAddress.Wards , @itemPost.appAddress.City
+								</div>
+								<div class="col-auto p-0 pe-3  text-secondary ms-auto pt-1" style="font-size: 13px">
+									@{
+										int totalTime = ((int)(DateTime.Now - itemPost.CreatedDate).TotalHours);
+										if (totalTime < 1)
+										{
+											totalTime = ((int)(DateTime.Now - itemPost.CreatedDate).TotalSeconds);
+											<span>@totalTime Phút trước</span>
+										}
+										if (totalTime < 24)
+										{
+											<span>@totalTime Giờ trước</span>
+										}
+										if (totalTime > 24)
+										{
+											int ngay = totalTime / 24;
+											<span>@ngay Ngày trước</span>
+										}
+									}
+								</div>
+							</div>
+							<div class="row mt-1  ms-1 text-secondary">@itemPost.Summary</div>
+							<div class="row mt-2  ms-1">
+								<div class="col-auto p-0">
+									<img src="@itemPost.Path" width="40px" height="40px" class="rounded-circle" />
+								</div>
+								<div class="col-auto p-0 pt-2 ms-1">
+									<span class="text-secondary ps-1">@itemPost.appUsers.Name</span>
+								</div>
+								<div class="col-auto p-0 ms-auto mt-2 pe-2">
+									<span class="p-2 py-1 bg-primary rounded-3"><a href="tel:0901007221" class="text-light text-decoration-none">Gọi 0901007221</a></span>
+									<span class="p-2 py-1 bg-light border border-1 border-primary rounded-3">
+										<a href="https://zalo.me/@itemPost.appUsers.PhoneNumberZL" target="_blank" class="text-primary text-decoration-none">Nhắn Zalo</a>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr />
+				}
+			}
+			<!-- VIP 1  -->
+			@foreach (var item in Model)
+			{
+				@if (Vip1 != null && Vip1.IdCategory == item.appCategory.IdCategory)
+				{
+					<div class="row ">
+						<div class="col-3 my-1 pe-0 position-relative" style="height: 170px">
+							<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost">
+								<span class="position-absolute fs-6 text-light" style="left: 30px; bottom: 10px">@item.appImgPosts.Count ảnh</span>
+								<img src="@item.Path" width="100%" height="170px" />
+							</a>
+							@{
+								int check = 0;
+								@foreach (var itemPin in ListPin)
+								{
+									if (itemPin.IdPost == item.IdPost)
+									{
+										<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@item.IdPost">
+											<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="fas fa-bookmark" style="color: #FFD43B;"></i></span>
+										</a>
+										check = 1;
+										break;
+									}
+								}
+								@if (check == 0)
+								{
+									<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@item.IdPost">
+										<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="far fa-bookmark" style="color: #FFD43B;"></i></span>
+									</a>
+								}
+							}
+						</div>
+						<div class="col-9 ps-3 pe-4">
+							<div class=" fw-bold  ">
+								<div class="d-inline p-0 ">
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+								</div>
+								<div class="d-inline p-0 ps-2">
+									<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost" style="color: @item.appCategory.TitleColor" class="text-decoration-none">
+										@item.Title
+									</a>
+								</div>
+							</div>
+							<div class="row ms-1">
+								<div class="col-auto p-0 pe-3 text-success fw-bold">@string.Format("{0:#,0.#}", item.RtalPrice / 1000000)  Triệu / @item.ToTforRtalPrice</div>
+								<div class="col-auto  p-0 pe-3">
+									<i class="fas fa-vector-square text-primary me-1"></i>@item.Area m<sup>2</sup>
+								</div>
+								<div class="col-auto  p-0 fw-bold">
+									<i class="fas fa-map-marked-alt text-primary me-2"></i> @item.appAddress.Wards , @item.appAddress.City
+								</div>
+
+							</div>
+							<div class="row mt-1 ms-1 text-secondary">
+								@item.Summary
+							</div>
+							<div class="row mt-2 ms-1">
+								<div class="col-auto p-0">
+									<img src="@item.Path" width="40px" height="40px" class="rounded-circle" />
+								</div>
+								<div class="col-auto p-0 ms-2 pt-2">
+									<span class="text-secondary ps-1">@item.appUsers.Name</span>
+								</div>
+								<div class="col-auto  p-0 pe-3 text-secondary ms-auto pt-2" style="font-size: 13px">
+									@{
+										int totalTime = ((int)(DateTime.Now - item.CreatedDate).TotalHours);
+										if (totalTime < 24)
+										{
+											<span>@totalTime Giờ trước</span>
+										}
+										if (totalTime > 24)
+										{
+											int ngay = totalTime / 24;
+											<span>@ngay Ngày trước</span>
+										}
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<hr>
+				}
+			}
+			<!--End VIP 1  -->
+			@foreach (var item in Model)
+			{
+
+				@if (Vip2 != null && Vip2.IdCategory == item.appCategory.IdCategory)
+				{
+					<div class="row">
+						<div class="col-3 my-1 pe-0 position-relative" style="height: 170px">
+							<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost">
+								<span class="position-absolute fs-6 text-light" style="left: 30px; bottom: 10px">@item.appImgPosts.Count ảnh</span>
+								<img src="@item.Path" width="100%" height="170px" />
+							</a>
+							@{
+								int check = 0;
+								@foreach (var itemPin in ListPin)
+								{
+									if (itemPin.IdPost == item.IdPost)
+									{
+										<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@item.IdPost">
+											<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="fas fa-bookmark" style="color: #FFD43B;"></i></span>
+										</a>
+										check = 1;
+										break;
+									}
+								}
+								@if (check == 0)
+								{
+									<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@item.IdPost">
+										<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="far fa-bookmark" style="color: #FFD43B;"></i></span>
+									</a>
+								}
+							}
+						</div>
+						<div class="col-9 ps-3  pe-4">
+							<div class=" fw-bold  ">
+								<div class="d-inline p-0 ">
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+								</div>
+								<div class="d-inline p-0 ps-2">
+									<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost" style="color: @item.appCategory.TitleColor" class="text-decoration-none">
+										@item.Title
+									</a>
+								</div>
+							</div>
+							<div class="row ms-1">
+								<div class="col-auto  p-0 pe-3 text-success fw-bold">@string.Format("{0:#,0.#}", item.RtalPrice / 1000000)  Triệu / @item.ToTforRtalPrice</div>
+								<div class="col-auto  p-0 pe-3">
+									<i class="fas fa-vector-square text-primary me-1"></i> @item.Area m<sup>2</sup>
+								</div>
+								<div class="col-auto  p-0 fw-bold">
+									<i class="fas fa-map-marked-alt text-primary me-2"></i> @item.appAddress.Wards , @item.appAddress.City
+								</div>
+
+							</div>
+							<div class="row mt-1  ms-1 text-secondary">
+								@item.Summary
+							</div>
+							<div class="row mt-2 ms-1">
+								<div class="col-auto p-0">
+									<img src="@item.Path" width="40px" height="40px" class="rounded-circle" />
+								</div>
+								<div class="col-auto p-0 ms-2 pt-2">
+									<span class="text-secondary ps-1">@item.appUsers.Name</span>
+								</div>
+								<div class="col-auto  p-0 pe-3 text-secondary ms-auto pt-2" style="font-size: 13px">
+									@{
+										int totalTime = ((int)(DateTime.Now - item.CreatedDate).TotalHours);
+										if (totalTime < 24)
+										{
+											<span>@totalTime Giờ trước</span>
+										}
+										if (totalTime > 24)
+										{
+											int ngay = totalTime / 24;
+											<span>@ngay Ngày trước</span>
+										}
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<hr>
+				}
+			}
+			<!--End VIP 2  -->
+			@foreach (var item in Model)
+			{
+
+				@if (Vip3 != null && Vip3.IdCategory == item.appCategory.IdCategory)
+				{
+					<div class="row">
+						<div class="col-3 my-1 pe-0 position-relative" style="height: 170px">
+							<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost">
+								<span class="position-absolute fs-6 text-light" style="left: 30px; bottom: 10px">@item.appImgPosts.Count ảnh</span>
+								<img src="@item.Path" width="100%" height="170px" />
+							</a>
+							@{
+								int check = 0;
+								@foreach (var itemPin in ListPin)
+								{
+									if (itemPin.IdPost == item.IdPost)
+									{
+										<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@item.IdPost">
+											<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="fas fa-bookmark" style="color: #FFD43B;"></i></span>
+										</a>
+										check = 1;
+										break;
+									}
+								}
+								@if (check == 0)
+								{
+									<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@item.IdPost">
+										<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="far fa-bookmark" style="color: #FFD43B;"></i></span>
+									</a>
+								}
+							}
+						</div>
+						<div class="col-9 ps-3  pe-4">
+							<div class=" fw-bold  ">
+								<div class="d-inline p-0 ">
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+								</div>
+								<div class="d-inline p-0 ps-2">
+									<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost" style="color: @item.appCategory.TitleColor" class="text-decoration-none">
+										@item.Title
+									</a>
+								</div>
+							</div>
+							<div class="row ms-1">
+								<div class="col-auto  p-0 pe-3 text-success fw-bold">@string.Format("{0:#,0.#}", item.RtalPrice / 1000000) Triệu / @item.ToTforRtalPrice</div>
+								<div class="col-auto  p-0 pe-3">
+									<i class="fas fa-vector-square text-primary me-1"></i> @item.Area m<sup>2</sup>
+								</div>
+								<div class="col-auto  p-0 fw-bold">
+									<i class="fas fa-map-marked-alt text-primary me-2"></i> @item.appAddress.Wards , @item.appAddress.City
+								</div>
+
+							</div>
+							<div class="row mt-1 ms-1 text-secondary">
+								@item.Summary
+							</div>
+							<div class="row mt-2 ms-1">
+								<div class="col-auto p-0">
+									<img src="@item.Path" width="40px" height="40px" class="rounded-circle" />
+								</div>
+								<div class="col-auto p-0 ms-2 pt-2">
+									<span class="text-secondary ps-1">@item.appUsers.Name</span>
+								</div>
+								<div class="col-auto  p-0 pe-3 text-secondary ms-auto pt-2" style="font-size: 13px">
+									@{
+										int totalTime = ((int)(DateTime.Now - item.CreatedDate).TotalHours);
+										if (totalTime < 24)
+										{
+											<span>@totalTime Giờ trước</span>
+										}
+										if (totalTime > 24)
+										{
+											int ngay = totalTime / 24;
+											<span>@ngay Ngày trước</span>
+										}
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<hr>
+				}
+			}
+			<!--End VIP 3  -->
+			@foreach (var item in Model)
+			{
+
+				@if (TinThuong != null && TinThuong.IdCategory == item.appCategory.IdCategory)
+				{
+					<div class="row">
+						<div class="col-3 my-1 pe-0 position-relative" style="height: 170px">
+							<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost">
+								<span class="position-absolute fs-6 text-light" style="left: 30px; bottom: 10px">@item.appImgPosts.Count ảnh</span>
+								<img src="@item.Path" width="100%" height="170px" />
+							</a>
+							@{
+								int check = 0;
+								@foreach (var itemPin in ListPin)
+								{
+									if (itemPin.IdPost == item.IdPost)
+									{
+										<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@item.IdPost">
+											<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="fas fa-bookmark" style="color: #FFD43B;"></i></span>
+										</a>
+										check = 1;
+										break;
+									}
+								}
+								@if (check == 0)
+								{
+									<a asp-action="PinCookies" asp-controller="Pin" asp-route-id="@item.IdPost">
+										<span class="position-absolute fs-4" style="right: 30px; bottom: 10px; z-index: 100"><i class="far fa-bookmark" style="color: #FFD43B;"></i></span>
+									</a>
+								}
+							}
+						</div>
+						<div class="col-9 ps-3  pe-4">
+							<div class=" fw-bold  ">
+								<div class="d-inline p-0 ">
+									<i class="fas fa-star" style="color: #FFD43B;"></i>
+								</div>
+								<div class="d-inline  p-0 ps-2">
+									<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost" style="color: @item.appCategory.TitleColor" class="text-decoration-none">
+										@item.Title
+									</a>
+								</div>
+							</div>
+							<div class="row ms-1">
+								<div class="col-auto  p-0 pe-3 text-success fw-bold">@string.Format("{0:#,0.#}", item.RtalPrice / 1000000)  Triệu / @item.ToTforRtalPrice</div>
+								<div class="col-auto  p-0 pe-3">
+									<i class="fas fa-vector-square text-primary me-1"></i> @item.Area m<sup>2</sup>
+								</div>
+								<div class="col-auto  p-0 fw-bold">
+									<i class="fas fa-map-marked-alt text-primary me-2"></i> @item.appAddress.Wards , @item.appAddress.City
+								</div>
+
+							</div>
+							<div class="row mt-1 ms-1 text-secondary">
+								@item.Summary
+							</div>
+							<div class="row mt-2 ms-1">
+								<div class="col-auto p-0">
+									<img src="@item.Path" width="40px" height="40px" class="rounded-circle" />
+								</div>
+								<div class="col-auto p-0 ms-2 pt-2">
+									<span class="text-secondary ps-1">@item.appUsers.Name</span>
+								</div>
+								<div class="col-auto  p-0 pe-3 text-secondary ms-auto pt-2" style="font-size: 13px">
+									@{
+										int totalTime = ((int)(DateTime.Now - item.CreatedDate).TotalHours);
+										if (totalTime < 24)
+										{
+											<span>@totalTime Giờ trước</span>
+										}
+										if (totalTime > 24)
+										{
+											int ngay = totalTime / 24;
+											<span>@ngay Ngày trước</span>
+										}
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<hr>
+				}
+			}
+			<!--End Thường   -->
+		</div>
+
+		@* Thanh lọc bên trái  *@
+		<div class="col-xxl-4 ms-auto ">
+			<div class="row ms-2 px-3 rounded-3 py-2 " style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Xem theo giá</div>
+
+					@await Component.InvokeAsync("NavPrice")
+
+				</div>
+			</div>
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Xem theo diện tích</div>
+					@await Component.InvokeAsync("NavArea")
+
+				</div>
+			</div>
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Danh mục cho thuê</div>
+					@await Component.InvokeAsync("NavPost")
+				</div>
+			</div>
+
+			@* Post new  *@
+			@await Component.InvokeAsync("NewPost")
+
+
+			@* Blog new  *@
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-2">Bài viết mới</div>
+					<div class="row">
+						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+					</div>
+					<div class="row">
+						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+					</div>
+					<div class="row">
+						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- end Product  -->

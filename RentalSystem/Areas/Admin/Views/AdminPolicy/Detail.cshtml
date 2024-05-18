@@ -1,0 +1,25 @@
+﻿@model RentalSystem.Areas.Admin.ViewModels.AdminPolicyVM
+
+<div class="container-fluid p-0">
+	<div class="row w-100 ">
+		<div class="col pe-0  rounded-1 ps-4 ">
+			<div class="row w-75 ms-1 pt-3">
+				<div class="col-auto p-0 pe-2 fw-bold  ps-2"><a asp-action="Index" class="text-decoration-none">Quản lý /</a></div>
+				<div class="col-auto p-0 ">Chi tiết chính sách</div>
+			</div>
+			<div class="row w-100 p-2 ps-1 mt-2 ms-1  ">
+				<div class="col p-0 fw-bold fs-4">Chi tiết chính sách</div>
+			</div>
+			<hr class="m-0">
+			<div class="row ms-1 w-100 text-center mt-3 mb-2">
+				<span class="fw-bold fs-4">@Model.Name</span>
+			</div>
+			<div class="row ms-1 w-100">
+				<span>@Html.Raw(Model.Description)</span>
+			</div>
+			<div class="row mt-3 ps-4 w-100">
+				<a asp-action="Index" asp-controller="AdminPolicy" class="text-decoration-none p-0 w-auto"><i class="fas fa-chevron-left me-0"></i> Quay về trang danh sách</a>
+			</div>
+		</div>
+	</div>
+</div>

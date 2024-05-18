@@ -1,0 +1,141 @@
+﻿@model IEnumerable<RentalSystem.Models.AppCategory>
+
+
+<div class="container clearfix">
+	<section class="section" style="border: none; background-color: transparent;">
+		<div class="section-header pt-3 mt-3">
+			<h3 class="text-center">Bảng giá thuê dịch vụ <span style="color:#c88321">Booking.com</span></h3>
+		</div>
+		<p class="text-center px-5"><span class="mx-5"><span style="color:#c88321">Booking.com</span> hân hạnh giới thiệu đến quý khách hàng bảng giá dịch vụ thuê tin đăng nhằm tăng cường khả năng tiếp cận và thu hút khách hàng tiềm năng. Chúng tôi cung cấp các gói dịch vụ đa dạng phù hợp với mọi nhu cầu quảng cáo của quý khách, bao gồm:</span></p>
+		<div class="section-content mt-4">
+			<table class="table table-pricing">
+				<thead>
+					<tr>
+						<th style="background:#c3c3c3; border: 0;" class="text-center"><i class="fas fa-th-list"></i></th>
+						@foreach (var item in Model)
+						{
+							<th class="package_vip1" style="background-color: @item.TitleColor; color: #fff; text-align: center;">
+								@item.Name
+							</th>
+						}
+					</tr>
+				</thead>
+				<tbody>
+					<tr >
+						<td class="nowrap text-center fw-bold"
+							style="vertical-align: top; width: 200px; background-color: #ededed;">
+							Ưu điểm
+						</td>
+						@foreach (var item in Model)
+						{
+							<td style="vertical-align: top; background-color: #ededed;">
+								@item.Advantage
+							</td>
+						}
+					</tr>
+					<tr >
+						<td class="nowrap text-center fw-bold" style="vertical-align: top; background-color: #ededed;">
+							Phù hợp
+						</td>
+						@foreach (var item in Model)
+						{
+							<td style="vertical-align: top; background-color: #ededed;">
+								@item.Object
+							</td>
+						}
+					</tr>
+					<tr>
+						<td class="nowrap text-center fw-bold" style="background-color: #ededed;">Giá ngày</td>
+						@foreach (var item in Model)
+						{
+							<td style="background-color: #ededed;" class="text-center">
+								<span class="price-day"> @String.Format("{0:000,0}", item.Price) <sup class="text-danger text-decoration-underline">đ</sup></span><span style="display: block; font-size: 0.8rem;">
+									(Tối thiểu
+									5 ngày)
+								</span>
+							</td>
+						}
+					</tr>
+					<tr>
+						<td class="nowrap text-center fw-bold" style=" background-color: #ededed;">
+							Màu sắc tiêu đề
+						</td>
+						@foreach (var item in Model)
+						{
+							<td style="background-color: #ededed;" class="text-center">
+								<span style="color: @item.TitleColor; font-weight: bold;">TIÊU ĐỀ</span>
+							</td>
+						}
+					</tr>
+					<tr>
+						<td class="nowrap text-center fw-bold" style="vertical-align: middle; background-color: #ededed;">
+							Tự động duyệt
+						</td>
+						@foreach (var item in Model)
+						{
+							@if (item.AutomaticBrowsing)
+							{
+								<td style="background-color: #ededed;" class="text-center">
+									<i class="fas fa-check text-success"></i>
+								</td>
+							}
+							else
+							{
+								<td style="background-color: #ededed;" class="text-center">
+									<i class="fas fa-times text-danger"></i>
+								</td>
+							}
+						}
+					</tr>
+					<tr>
+						<td class="nowrap  text-center fw-bold" style="vertical-align: middle; background-color: #ededed;">
+							Hiển thị số điện thoại trang danh sách
+						</td>
+						@foreach (var item in Model)
+						{
+							if (item.DisplayNumberPhone)
+							{
+								<td style="background-color: #ededed;" class="text-center">
+									<i class="fas fa-check text-success"></i>
+								</td>
+							}
+							else
+							{
+								<td style="background-color: #ededed;" class="text-center">
+									<i class="fas fa-times text-danger"></i>
+								</td>
+							}
+						}
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="offset-md-2 col-md-8">
+			<section class="section ">
+				<div class="fs-3 mt-4 text-center">
+					Minh họa tin đăng
+				</div>
+				<div class="text-center">
+					<div class="section-content">
+						@foreach(var item in Model)
+						{
+							<div class="clearfix" id="">
+								<div class="vip-demo-left mb-2" style="text-align: left">
+									<div class="fs-5 fw-bold mt-4"> Ảnh minh họa bài viết <span style="color: @item.TitleColor"> @item.Name</span></div>
+								</div>
+								<a href="@item.Path" target="_blank">
+									<img src="@item.Path" style="width:850px">
+								</a>
+							</div>
+						}
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>

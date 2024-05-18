@@ -1,0 +1,92 @@
+﻿@using RentalSystem.WebConfig.Constant
+@model X.PagedList.IPagedList<RentalSystem.Models.AppHistoryPayments>
+@{
+	int count = 1;
+	double sum = 0;
+}
+
+<div class="col pe-0 bg-light mx-2 mt-5 mb-4 pb-3 rounded-1 ps-4">
+	<div class="row w-100 p-2  mt-5 pt-3 bg-light rounded-1">
+		<div class="col-auto p-0 pe-2 fw-bold"><a href="#" class="text-decoration-none">Quản lý /</a></div>
+		<div class="col-auto p-0">Lịch sử thanh toán</div>
+	</div>
+	<div class="row w-100 p-2  fs-4 fw-bold">
+		<div class="col-auto p-0">Lịch sử thanh toán</div>
+	</div>
+	<div class="row w-100 p-2 " style="font-size: 14px">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th style="width: 15px"></th>
+					<th style="min-width: 100px">Mã bài đăng</th>
+					<th>Tên bài đăng</th>
+					<th style="min-width: 180px;" class="text-center">Thời gian đăng</th>
+					<th style="min-width: 120px;" class="text-center">TG Thanh toán</th>
+					<th style="min-width: 90px">Trạng thái</th>
+					<th style="min-width: 120px">Tổng tiền</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>@count</td>
+						<th>@item.MaPost</th>
+						<td style="color: @item.appPosts.appCategory.TitleColor; font-size: 15px">
+							<span class="text-black">[@item.appPosts.appCategory.Name]</span> 
+							@item.appPosts.Title </td>
+						<td class="text-center">
+							@item.appPosts.CreatedDate.ToString("dd/MM/yyyy") <i class="fas fa-arrow-right"></i> @item.appPosts.ExpirationDate.ToString("dd/MM/yyyy")
+						</td>
+						<td class="text-center">
+							@if (@item.Status == AppTransactionStatus.SUCCESS)
+							{
+								@item.CreatedDate.ToString("dd/MM/yyyy")
+							}
+							else
+							{
+								<i class="fas fa-exclamation-triangle text-danger"></i>
+							}
+						</td>
+						<td class="text-center">
+							@if (@item.Status == AppTransactionStatus.SUCCESS)
+							{
+								<i class="fas fa-check-circle text-success"></i>
+							}
+							else
+							{
+								<i class="fas fa-exclamation-triangle text-danger"></i>
+							}
+						</td>
+						<td>
+							@String.Format("{0:#,0}", item.Fee)
+							<span>VNĐ</span>
+						</td>
+
+					</tr>
+					count++;
+				}
+			</tbody>
+		</table>
+		<p class="text-end p-0 me-3">
+			<span class="">
+				<span class="text-black fs-6"><i>Tổng thanh toán: </i></span>
+				@foreach (var item in Model)
+				{
+					sum += item.Fee;
+				}
+				<span class="fw-bold fs-5 text-danger">@String.Format("{0:#,0}", sum)</span>
+				<span class="ms-1 fw-bold ">VNĐ</span>
+			</span>
+		</p>
+		<p class="p-0">
+			@if (ViewBag.searched != null && !string.IsNullOrEmpty(ViewBag.searched.ToString()))
+			{
+				<div class="text-center">
+					<span class="text-danger"><i>Kết quả tìm kiếm [@Model.Count()] item cho [@ViewBag.searchName] </i></span> <a asp-action="Index" class="text-decoration-none text-center" style="display: inline-block">Đặt lại</a>
+				</div>
+			}
+			<span style="font-size: 12px"><i>Danh sách này có tổng cộng @ViewBag.TotalHistory.Count bản ghi</i></span>
+		</p>
+	</div>
+</div>

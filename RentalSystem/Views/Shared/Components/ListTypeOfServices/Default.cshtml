@@ -1,0 +1,16 @@
+﻿@model IEnumerable<RentalSystem.Models.AppTypeOfService>
+
+
+<div class="modal-body pt-0 px-0">
+	@foreach (var item in Model)
+	{
+
+		<a asp-action="Index" asp-controller="Home" asp-route-TypeOfServices="@item.Name" class=" text-decoration-none">
+			<div class="pointer p-2 px-3 fw-bold modelItemCate">
+				<i class="fas fa-hotel" style="color: #00b3ff;"></i>
+				<span>@item.Name</span>
+			</div>
+		</a>
+		<hr class="m-0">
+	}
+</div>

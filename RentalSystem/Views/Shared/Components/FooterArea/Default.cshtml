@@ -1,0 +1,44 @@
+﻿@model IEnumerable<RentalSystem.Models.AppTypeOfService>
+
+
+<div class="row justify-content-center">
+
+	@foreach (var item in Model)
+	{
+		<div class="col-auto mx-5 p-0 text-primary px-3">
+			<div class=" row">
+				<div class="col-auto p-0 fs-6 fw-bold hover-red">Cho thuê @item.Name </div>
+				<div class="col-auto p-0 pt-1
+									">
+					<i class="fas fa-angle-down ms-2 fs-5 text-secondary" style="color: #00112e;"></i>
+				</div>
+			</div>
+			<div class="row" style="font-size: 14px; ">
+				<a asp-action="Index" asp-controller="Home" asp-route-TofServices="@item.IdTypeOfService" asp-route-Address="Thành phố Hồ Chí Minh" class="p-0 text-decoration-none">
+					<span class=" hover-red">Cho thuê @item.Name Hồ Chí Minh</span>
+				</a>
+			</div>
+			<div class="row hover-red" style="font-size: 14px;">
+				<a asp-action="Index" asp-controller="Home" asp-route-TofServices="@item.IdTypeOfService" asp-route-Address="Thành phố Hà Nội" class="p-0 text-decoration-none">
+					<span class=" hover-red">Cho thuê @item.Name Hà Nội</span>
+				</a>
+			</div>
+			<div class="row hover-red" style="font-size: 14px;">
+				<a asp-action="Index" asp-controller="Home" asp-route-TofServices="@item.IdTypeOfService" asp-route-Address="Thành phố Đà Nẵng" class="p-0 text-decoration-none">
+					<span class=" hover-red">Cho thuê @item.Name Đà Nẵng</span>
+				</a>
+			</div>
+			<div class="row hover-red" style="font-size: 14px;">
+				<a asp-action="Index" asp-controller="Home" asp-route-TofServices="@item.IdTypeOfService" asp-route-Address="Thành phố Bình Dương" class="p-0 text-decoration-none">
+					<span class=" hover-red">Cho thuê @item.Name Bình Dương</span>
+				</a>
+			</div>
+			<div class="row hover-red" style="font-size: 14px;">
+				<a asp-action="Index" asp-controller="Home" asp-route-TofServices="@item.IdTypeOfService" asp-route-Address="Thành phố Cần Thơ" class="p-0 text-decoration-none">
+					<span class=" hover-red">Cho thuê @item.Name Cần Thơ</span>
+				</a>
+			</div>
+		</div>
+	}
+
+</div>

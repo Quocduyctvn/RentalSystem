@@ -1,0 +1,127 @@
+﻿@model RentalSystem.Areas.Admin.ViewModels.AddCateVM
+
+<div class="container-fluid p-0">
+	<div class="row w-100 ps-4 ">
+		<div class="col-auto p-0 ps-2">
+			<a asp-action="Index" asp-controller="AdminCategory" class="text-decoration-none">Quản lý danh sách gói tin /</a>
+		</div>
+		<div class="col-auto p-0 ms-1">
+			<i> @ViewBag.ActionName</i>
+		</div>
+	</div>
+	<div class="row w-100 fs-4 ps-4  pt-2" style="font-weight: 500">
+		<span class="ps-2">@ViewBag.ActionName</span>
+	</div>
+	<hr />
+	<div class="row w-100 ">
+		<div class="col p-0 ms-4 ps-4">
+			<form asp-action="AddOrUpCategory" method="post" enctype="multipart/form-data">
+				<div class="row w-100">
+					<div class="col-7 p-0 pe-4">
+						<div class="row fs-6 fw-bold "><span>Tên gói tin<sup class="text-danger b fw-bold">*</sup></span></div>
+						<div class="row w-100 mx-1 mt-2">
+							<input asp-for="Name" class="form-control" type="text" />
+						</div>
+						<div class="row fs-6 fw-bold mt-2 ps-1"><span>Ưu điểm<sup class="text-danger b fw-bold">*</sup></span></div>
+						<div class="row w-100 mx-1 mt-2">
+							<textarea asp-for="Advantage" class="form-control" rows="7"></textarea>
+						</div>
+						<div class="row fs-6 fw-bold  mt-2 ps-1"><span>Đối tượng cho thuê <sup class="text-danger b fw-bold">*</sup></span></div>
+						<div class="row w-100 mx-1 mt-2">
+							<textarea asp-for="Object" class="form-control" rows="7"></textarea>
+						</div>
+					</div>
+					<div class="col-5  p-0 px-1 ps-4">
+						<div class="row w-100 fs-6 fw-bold "><span class="p-0">Hình ảnh minh họa(1)</span></div>
+						<div class="row w-100 position-relative">
+							<div class="col p-0 mt-2 mx-3" style="opacity: 1">
+								<div class="row text-center justify-content-center align-items-center" style="border: dotted 2px rgb(139, 139, 139); height: 200px">
+									<i class="fas fa-cloud-upload-alt" style="font-size: 90px; color: rgb(10, 176, 202)"></i>
+								</div>
+							</div>
+							<div class="col p-0 mt-2 mx-3 position-absolute" style="opacity: 0">
+								<input class="form-control border border-secondary" asp-for="Path" type="file" id="fileInput" style="height: 200px" />
+							</div>
+						</div>
+						@if(@Model.PathString != null){
+							<div class="row w-100 fs-6 fw-bold mt-2 ps-1"><span class="p-0">Ảnh cũ</span></div>
+							<div class="row w-100 fs-6 fw-bold mt-2 ps-1">
+								<img src="@Model.PathString" width="200px" style="border-style: dashed; " />
+							</div>
+							<hr />
+						}
+						<div class="row mt-3">
+							<div class="col-auto p-0 ps-1 position-relative">
+								<div id="imageContainer"
+									 style="border-style: dashed; width: 100px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+									<span class="text-center">Chưa Chọn Ảnh</span>
+								</div>
+								<span class="position-absolute" id="closeImg" style="top: -14px; right: -18px; z-index: 10; display: none;">
+									<i class="fas fa-times-circle text-danger fs-4"></i>
+								</span>
+							</div>
+						</div>
+						<div class="row w-100 fs-6 fw-bold mt-3">
+							<span class="p-0">Giá thuê <sup class="text-danger b fw-bold">*</sup></span>
+						</div>
+						<div class="row  mt-2">
+							<div class="col-7 p-0">
+								<input asp-for="Price" class="form-control" type="text" />
+							</div>
+							<div class="col-auto mt-3 ps-2 p-0">
+								/ Ngày
+							</div>
+						</div>
+						<div class="row mt-2 text-danger">
+							<span style="font-size: 11px" class="p-0"><i>Vd: 20K ngày - Nhập 20000</i></span>
+						</div>
+						<div class="row w-100 fs-6 fw-bold mt-3">
+							<div class="col-auto p-0">Select màu cho tiêu đề <sup class="text-danger">*</sup></div>
+							<div class="col-3">
+								<input id="title-color" asp-for="TitleColor" class="form-control" type="color" />
+							</div>
+						</div>
+
+						<div class="row w-100 fs-6 fw-bold mt-2">
+							<span class="col-auto p-0">Tự động duyệt: </span>
+							<input type="checkbox" asp-for="AutomaticBrowsing" class="col-auto p-0 form-check-input border border-black mt-1 ms-2"/>
+						</div>
+						<div class="row w-100 fs-6 fw-bold mt-2">
+							<span class="col-auto p-0">Hiển thị số điện thoại: </span>
+							<input type="checkbox" asp-for="DisplayNumberPhone" class="col-auto p-0 form-check-input border border-black mt-1 ms-2"  />
+						</div>
+					</div>
+				</div>
+				<div class="row w-100  mt-3">
+					<button class="btn btn-success  p-2 px-4 w-auto" type="submit"><i class="far fa-save"></i> Lưu</button>
+					<button class="btn  p-2 px-4 w-auto ms-2" style="background-color: #c3c3c3" type="reset"><i class="fas fa-undo"></i> Nhập lại</button>
+				</div>
+			</form>
+			<div class="row mt-3 w-100">
+				<a asp-action="Index" asp-controller="AdminCategory" class="text-decoration-none p-0 w-auto">Quay về trang danh sách</a>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	document.getElementById("imageContainer").style.display = "none";
+	document.getElementById("closeImg").style.display = "none";
+	document.getElementById('fileInput').addEventListener('change', function () {
+		var file = this.files[0];
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			var imageContainer = document.getElementById('imageContainer');
+			imageContainer.innerHTML = '<img src="' + e.target.result + '" style="width: 100%; height: 100%; object-fit: contain;">';
+			imageContainer.style.display = "block";
+
+			document.getElementById("closeImg").style.display = "block";
+		};
+		reader.readAsDataURL(file);
+	});
+	document.getElementById("closeImg").addEventListener("click", () => {
+		document.getElementById('fileInput').value = null;
+		document.getElementById("imageContainer").style.display = "none";
+		document.getElementById("closeImg").style.display = "none";
+	})
+</script>

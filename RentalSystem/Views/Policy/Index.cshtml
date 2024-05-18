@@ -1,0 +1,61 @@
+﻿
+@model RentalSystem.Models.AppPolicy;
+
+<div class="container mt-3">
+	<div class="row">
+		<div class="col-xxl-8  px-4 rounded-2" style="background-color:#ededed">
+			<div class="row mb-3">
+				<h4 class="fw-bold fs-4 mt-3 mb-0 text-center">@Model.Name</h4>
+			</div>
+			<div class="row mb-3">
+				@Html.Raw(Model.Description)
+			</div>
+		</div>
+
+		@* Thanh lọc bên trái  *@
+		<div class="col-xxl-4 ms-auto ">
+			<div class="row ms-2 px-3 rounded-3 py-2 " style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Xem theo giá</div>
+
+					@await Component.InvokeAsync("NavPrice")
+
+				</div>
+			</div>
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Xem theo diện tích</div>
+					@await Component.InvokeAsync("NavArea")
+
+				</div>
+			</div>
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Danh mục cho thuê</div>
+					@await Component.InvokeAsync("NavPost")
+				</div>
+			</div>
+
+			@* Post new  *@
+			@await Component.InvokeAsync("NewPost")
+
+
+			@* Blog new  *@
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-2">Bài viết mới</div>
+					<div class="row">
+						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+					</div>
+					<div class="row">
+						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+					</div>
+					<div class="row">
+						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

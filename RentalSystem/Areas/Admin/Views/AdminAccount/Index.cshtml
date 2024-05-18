@@ -1,0 +1,149 @@
+﻿@using RentalSystem.WebConfig.Constant
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<RentalSystem.Models.AppUsers>
+@{
+	int counter = 1;
+	var Role = ViewBag.RolePer as List<AppRolePermission>;
+}
+
+<div class="container-fluid p-0">
+	<div class="row w-100 fs-4 px-4 pt-2" style="font-weight: 500">
+		Danh sách tài khoản
+	</div>
+	<hr />
+	@foreach (var itemViewList in Role)
+	{
+		if (itemViewList.IdPermission == AuthConst.AppUsers.VIEW_LIST)
+		{
+			<div class="row w-100 ">
+				<div class="col p-0 ms-4 ps-3">
+					<form asp-action="Index">
+						<div class="row w-100">
+							@foreach (var itemCreate in Role)
+							{
+								if (itemCreate.IdPermission == AuthConst.AppUsers.CREATE)
+								{
+									<button class="btn btn-success w-auto rounded-1">
+										<a asp-action="AddUser" asp-controller="AdminAccount" class="text-decoration-none text-light">
+											<i class="fas fa-plus-circle "></i> Tạo mới người dùng
+										</a>
+									</button>
+								}
+							}
+							<div class="col-3 p-0 ms-3">
+								<input type="text" name="keyword" placeholder="Tìm kiếm ngay.." class="form-control" style="border-radius: 7px 0 0 7px" />
+							</div>
+							<button type="submit" class="col-auto p-0 border border-none px-2" style="border-radius: 0 7px 7px 0">Tìm kím</button>
+						</div>
+					</form>
+					<div class="row w-100 mt-4">
+						<div class="table-responsive px-0">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th style="width: 35px;">#</th>
+										<th style="width: 230px;">Tài khoản</th>
+										<th style="width: 130px;">SĐT</th>
+										<th style="width: 200px;">Email</th>
+										<th>Vai trò</th>
+										<th style="width: 140px;">Ngày tạo</th>
+										<th style="width: 200px;" class="text-center">Tùy chọn</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in Model)
+									{
+										<tr>
+											<td>@counter</td>
+											<td class="">@item.Name </td>
+											<td>@item.PhoneNumberZL</td>
+											<td>@item.Email</td>
+											<td>@item.appRole.Name</td>
+											<td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+											<td class="justify-content-center text-center">
+												@foreach (var itemRole in Role)
+												{
+													if (itemRole.IdPermission == AuthConst.AppUsers.IsCHANGEBLOCK)
+													{
+														if (item.IsBlock == false) // không khóa
+														{
+															<a asp-action="Block" asp-controller="AdminAccount" asp-route-id="@item.IdUser" class="text-primary px-2 btn btn-outline-light border border-sacondary"><i class="fas fa-lock-open" style="color: #ff9908;"></i></a>
+														}
+														if (item.IsBlock == true) // block
+														{
+															<a asp-action="UnBlock" asp-controller="AdminAccount" asp-route-id="@item.IdUser" class="text-primary px-2 btn btn-outline-light border border-sacondary"><i class="fas fa-lock" style="color:#ff9908;"></i></a>
+														}
+													}
+												}
+												@foreach (var itemUpdate in Role)
+												{
+													if (itemUpdate.IdPermission == AuthConst.AppUsers.UPDATE)
+													{
+														<a asp-action="UpdateUser" asp-controller="AdminAccount" asp-route-id="@item.IdUser" class="text-primary px-2 btn btn-outline-light border border-sacondary"><i class="far fa-edit fs-5 "></i></a>
+													}
+												}
+												@foreach (var itemDelete in Role)
+												{
+													if (itemDelete.IdPermission == AuthConst.AppUsers.DELETE)
+													{
+														<a class="text-danger px-2 btn btn-outline-light border border-sacondary" data-bs-toggle="modal" data-bs-target="#deleteUser" onclick="DeleteUser('@item.Name', @item.IdUser)">
+															<i class="fas fa-trash-alt fs-5"></i>
+														</a>
+													}
+												}
+											</td>
+										</tr>
+										counter++;
+									}
+								</tbody>
+							</table>
+							@if (TempData["searched"] != null && !string.IsNullOrEmpty(TempData["searched"].ToString()))
+							{
+								<div class="text-center">
+									<span class="text-danger"><i>Kết quả tìm kiếm [@Model.Count()] item </i></span> <a asp-action="Index" class="text-decoration-none text-center" style="display: inline-block">Đặt lại</a>
+								</div>
+							}
+
+
+							<div class="pagination">
+								@for (int i = 1; i <= Model.PageCount; i++)
+								{
+									<div class="page-number @(Model.PageNumber == i ? "active" : "") px-2 btn btn-primary me-1">
+										<a href="@Url.Action("Index", new { page = i })" class="text-decoration-none text-light">@i</a>
+									</div>
+								}
+							</div>
+
+							<div style="font-size: 12px" class="mt-2"><i>Danh sách này có tổng cộng @ViewBag.ListUser.Count bản ghi</i></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	}
+</div>
+@* ====================================================== model  ===================================================== *@
+<div class="modal fade" id="deleteUser" tabindex="-1" aria-labelledby="deleteUser" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form asp-action="DeleteUser" method="post">
+				<input type="hidden" id="inputDelete" name="id" />
+				<div class="modal-header">
+					<h1 class="modal-title fs-5 p-2" id="updateDM_DVLabel">Bạn chắc chắn Xóa tài khoản: </h1>
+					<span id="Name" class="text-danger"></span>
+					<button type="button" class="btn-close ml-5" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+					<button type="submit" class="btn btn-primary">Xóa</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	function DeleteUser(name, id) {
+		document.getElementById('inputDelete').value = id;
+		document.getElementById('Name').textContent = `[${name}]`;
+	}
+</script>

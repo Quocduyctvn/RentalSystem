@@ -1,0 +1,205 @@
+﻿@using RentalSystem.WebConfig.Constant
+@model RentalSystem.Areas.User.ViewModels.UserVM
+@{
+	int APPROVED = 0;  // ĐÃ DUYỆT
+	int EXPIRED = 0;  // HẾT HẠN
+	int BOOKED = 0;   // ĐÃ ĐẶT
+}
+
+
+<div class="col pe-0 bg-light mx-2 mt-5 pb-5 rounded-1 ps-4">
+	<div class="row ms-1 pt-3 ">
+		<div class="col p-0">
+			<form asp-action="Update" asp-controller="UserHome" method="post" enctype="multipart/form-data">
+				<div class="row w-100 ">
+					<div class="col-auto p-0 fw-bold fs-5">Thông tin cá nhân</div>
+					<div class="col-auto p-0 ms-auto me-3 bg-outline-success p-2 rounded-2  edit-button" style="background-color: #d2d2d2"><i class="fas fa-user-edit"></i></div>
+					<button type="submit" class="col-auto p-0 text-light fs-6 px-2  bg-success rounded-1 me-3 update d-none">
+						Cập nhật
+					</button>
+				</div>
+				<div class="row w-100">
+					<div class="col-auto p-0 mx-auto text-center position-relative ">
+						<img id="Avatar" src="@Model.Avatar" class="rounded-circle" width="120px" height="120px" />
+						<label for="avatarInput" class="position-absolute bottom-0 end-0 editable-field d-none">
+							<i class="fas fa-upload"></i>
+						</label>
+						<input id="avatarInput" asp-for="@Model.FfAvatar" type="file" class="border-0 visually-hidden  editable-field" />
+					</div>
+				</div>
+				<div class="row w-100 text-center">
+					<div class="col-auto p-0 mx-auto fs-5 fw-bold">
+						<span class="editable-field">@Model.Name</span>
+						<input asp-for="@Model.Name" class=" col-auto border border-none editable-field d-none ms-2 mt-2 rounded-2" />
+					</div>
+				</div>
+
+				<div class="row w-100 text-center justify-content-center mt-2">
+					<div class="col-auto p-0  fw-bold">Mã thành viên:</div>
+					<div class="col-auto p-0 ps-2">@Model.Code</div>
+				</div>
+				<div class="row w-100 text-center  justify-content-center">
+					<div class="col-auto p-0  fw-bold">Tài khoản chính:</div>
+					<div class="col-auto p-0 ps-2">@Model.AccountBalance</div>
+				</div>
+				<div class="row w-100 mt-4">
+					<div class="co p-0 ps-3">
+						<div class="row w-100  my-1">
+							<div class="col-2 p-0  fw-bold">Số điện thoại:</div>
+							<span class="col-auto p-0 ps-2 editable-field">@Model.PhoneNumberZL</span>
+							<input asp-for="@Model.PhoneNumberZL" class=" col-5 border border-none editable-field d-none ms-2 rounded-2" />
+						</div>
+						<div class="row w-100  my-1">
+							<div class="col-2 p-0  fw-bold">Email:</div>
+							@if (String.IsNullOrEmpty(Model.Email))
+							{
+								<span class="col-auto p-0 ps-2 editable-field">
+									Trống
+								</span>
+							}
+							else
+							{
+								<span class="col-auto p-0 ps-2 editable-field">
+									@Model.Email
+								</span>
+							}
+							<input asp-for="@Model.Email" class="col-5 border border-none editable-field d-none ms-2 rounded-2" />
+						</div>
+						<div class="row w-100 my-1">
+							<div class="col-2 p-0  fw-bold">Địa chỉ:</div>
+							@if (String.IsNullOrEmpty(Model.Address))
+							{
+								<span class="col-auto p-0 ps-2 editable-field">
+									Trống
+								</span>
+							}
+							else
+							{
+								<span class="col-auto p-0 ps-2 editable-field">
+									@Model.Address
+								</span>
+							}
+							<input asp-for="@Model.Address" class="col-5 border border-none editable-field d-none ms-2 rounded-2" />
+						</div>
+						<div class="row w-100 my-1">
+							<div class="col-2 p-0  fw-bold">Địa chỉ link faceBook:</div>
+							@if (String.IsNullOrEmpty(Model.LinkFB))
+							{
+								<span class="col-auto p-0 ps-2 editable-field">
+									Trống
+								</span>
+							}
+							else
+							{
+								<span class="col-auto p-0 ps-2 editable-field">
+									@Model.LinkFB
+								</span>
+							}
+							<input asp-for="@Model.LinkFB" class=" col-5 border border-none editable-field d-none ms-2 rounded-2" />
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="row w-100 mt-5">
+				<div class="col-3 p-0 rounded-3 ms-auto mx-2" style="background-color: #47ac57">
+					<a asp-action="Index" asp-controller="UserPost" asp-area="User" asp-route-status="@AppPostStatus.APPROVED" class="text-decoration-none">
+						<div class="row w-100 ms-4 mt-3  text-light">
+							<div class="col-7 p-0">
+								<div class="row fs-3">
+									@foreach (var item in ViewBag.Post)
+									{
+										if (item.PostStatus == AppPostStatus.APPROVED)
+										{
+											APPROVED += 1;
+										}
+									}
+									<span class="fw-bold">@APPROVED</span>
+								</div>
+								<div class="row">Bài đăng đang hiển thị</div>
+							</div>
+							<div class="col-3 p-0 ms-auto mt-2">
+								<i class="fas fa-align-right fs-1"></i>
+							</div>
+						</div>
+						<div class="row w-100 ms-0 mt-3 bg-success justify-content-center  text-light py-2">
+							<div class="col-auto p-0 mx-auto">Xêm thêm <i class="fas fa-arrow-circle-right"></i></div>
+						</div>
+					</a>
+				</div>
+				<div class="col-3 p-0 rounded-3 mx-2" style="background-color: #62beb3">
+					<a asp-action="Index" asp-controller="UserPost" asp-area="User" asp-route-status="@AppPostStatus.BOOKED" class="text-decoration-none">
+						<div class="row w-100 ms-4 mt-3  text-light">
+							<div class="col-7 p-0">
+								<div class="row fs-3">
+									@foreach (var item in ViewBag.Post)
+									{
+										if (item.PostStatus == AppPostStatus.BOOKED)
+										{
+											BOOKED += 1;
+										}
+									}
+									<span class="fw-bold">@BOOKED</span>
+								</div>
+								<div class="row">Bài đăng đã được đặt</div>
+							</div>
+							<div class="col-3 p-0 ms-auto mt-2">
+								<i class="fas fa-align-right fs-1"></i>
+							</div>
+						</div>
+						<div class="row w-100 ms-0 mt-3 justify-content-center  text-light py-2" style="background-color: #58d2d1">
+							<div class="col-auto p-0 mx-auto">Xêm thêm <i class="fas fa-arrow-circle-right"></i></div>
+						</div>
+					</a>
+				</div>
+				<div class="col-3 p-0 rounded-3 mx-2 me-auto" style="background-color: #e9c730">
+					<a asp-action="Index" asp-controller="UserPost" asp-area="User" asp-route-status="@AppPostStatus.EXPIRED" class="text-decoration-none">
+						<div class="row w-100 ms-4 mt-3  text-light">
+							<div class="col-7 p-0">
+								<div class="row fs-3">
+									@foreach (var item in ViewBag.Post)
+									{
+										if (item.PostStatus == AppPostStatus.EXPIRED)
+										{
+											EXPIRED += 1;
+										}
+									}
+									<span class="fw-bold">@EXPIRED</span>
+								</div>
+								<div class="row">Bài đăng hết hạn</div>
+							</div>
+							<div class="col-3 p-0 ms-auto mt-2">
+								<i class="fas fa-align-right fs-1"></i>
+							</div>
+						</div>
+						<div class="row w-100 ms-0 mt-3 justify-content-center  text-light py-2" style="background-color: #c8aa29">
+							<div class="col-auto p-0 mx-auto">Xêm thêm <i class="fas fa-arrow-circle-right"></i></div>
+						</div>
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		var editButton = document.querySelector('.edit-button');
+		var editableFields = document.querySelectorAll('.editable-field');
+		var update = document.querySelector('.update');
+		editButton.addEventListener('click', function () {
+			for (var i = 0; i < editableFields.length; i++) {
+				if (editableFields[i].tagName === 'SPAN' || editableFields[i].tagName === 'LABEL') {
+					editableFields[i].classList.toggle('d-none');
+					editableFields[i].nextElementSibling.classList.toggle('d-none');
+				}
+			}
+			update.classList.toggle('d-none');
+		});
+	});
+</script>
+<script>
+	var Avatar = document.getElementById("Avatar");
+	document.getElementById("avatarInput").addEventListener("change", (event) => {
+		Avatar.setAttribute("src", URL.createObjectURL(event.target.files[0]));
+	});
+</script>

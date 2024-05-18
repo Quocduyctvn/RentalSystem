@@ -1,0 +1,154 @@
+﻿@using RentalSystem.WebConfig.Constant
+@{
+	int APPROVED = 0;  // ĐÃ DUYỆT
+	int EXPIRED = 0;  // HẾT HẠN
+	int BOOKED = 0;   // ĐÃ ĐẶT
+	int PENDING = 0;  // chờ duyệt
+}
+
+<div class="row w-100 fs-2 fw-bold px-4 mt-2" style="color:#c57103">Booking.com</div>
+<p class="px-3">Booking.com</p>
+@* <canvas id="myChart" style="width:100%;max-width:600px; margin: auto"></canvas> *@
+<div class="row w-100 px-3 mt-5">
+	<div class="col-xl-3 col-md-6">
+		<a asp-action="Index" asp-controller="AdminPost" asp-area="Admin" asp-route-status="@AppPostStatus.APPROVED" class="text-decoration-none">
+			<div class="card bg-primary text-white mb-4">
+				<div class="row w-100 ms-4 mt-3  text-light">
+					<div class="col-7 p-0">
+						<div class="row fs-3">
+							@foreach (var item in ViewBag.Post)
+							{
+								if (item.PostStatus == AppPostStatus.APPROVED && item.IsPublic == true)
+								{
+									APPROVED += 1;
+								}
+							}
+							<span class="fw-bold">@APPROVED</span>
+						</div>
+						<div class="row">Bài đăng đang sử dụng</div>
+					</div>
+					<div class="col-3 p-0 ms-auto mt-2">
+						<i class="fas fa-align-right fs-1"></i>
+					</div>
+				</div>
+				<div class="row w-100 ms-0 mt-3 justify-content-center  text-light py-2" style="background-color:#2260e7">
+					<div class="col-auto p-0 mx-auto">Xêm thêm <i class="fas fa-arrow-circle-right"></i></div>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<a asp-action="Index" asp-controller="AdminPost" asp-area="Admin" asp-route-status="@AppPostStatus.EXPIRED" class="text-decoration-none">
+			<div class="card bg-warning text-white mb-4">
+				<div class="row w-100 ms-4 mt-3  text-light">
+					<div class="col-7 p-0">
+						<div class="row fs-3">
+							@foreach (var item in ViewBag.Post)
+							{
+								if (item.PostStatus == AppPostStatus.EXPIRED)
+								{
+									EXPIRED += 1;
+								}
+							}
+							<span class="fw-bold">@EXPIRED</span>
+						</div>
+						<div class="row">Bài đăng hết hạn</div>
+					</div>
+					<div class="col-3 p-0 ms-auto mt-2">
+						<i class="fas fa-align-right fs-1"></i>
+					</div>
+				</div>
+				<div class="row w-100 ms-0 mt-3 justify-content-center  text-light py-2" style="background-color:#dca921">
+					<div class="col-auto p-0 mx-auto">Xêm thêm <i class="fas fa-arrow-circle-right"></i></div>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<a asp-action="Index" asp-controller="AdminPost" asp-area="Admin" asp-route-status="@AppPostStatus.BOOKED" class="text-decoration-none">
+			<div class="card bg-success text-white mb-4">
+				<div class="row w-100 ms-4 mt-3  text-light">
+					<div class="col-7 p-0">
+						<div class="row fs-3">
+							@foreach (var item in ViewBag.Post)
+							{
+								if (item.PostStatus == AppPostStatus.BOOKED)
+								{
+									BOOKED += 1;
+								}
+							}
+							<span class="fw-bold">@BOOKED</span>
+						</div>
+						<div class="row">Bài đăng đã đặt</div>
+					</div>
+					<div class="col-3 p-0 ms-auto mt-2">
+						<i class="fas fa-align-right fs-1"></i>
+					</div>
+				</div>
+				<div class="row w-100 ms-0 mt-3 justify-content-center  text-light py-2" style="background-color:#005809">
+					<div class="col-auto p-0 mx-auto">Xêm thêm <i class="fas fa-arrow-circle-right"></i></div>
+				</div>
+			</div>
+		</a>
+	</div>
+	<div class="col-xl-3 col-md-6">
+		<a asp-action="Index" asp-controller="AdminPost" asp-area="Admin" asp-route-status="@AppPostStatus.PENDING" class="text-decoration-none">
+			<div class="card bg-danger text-white mb-4">
+				<div class="row w-100 ms-4 mt-3  text-light">
+					<div class="col-7 p-0">
+						<div class="row fs-3">
+							@foreach (var item in ViewBag.Post)
+							{
+								if (item.PostStatus == AppPostStatus.PENDING)
+								{
+									PENDING += 1;
+								}
+							}
+							<span class="fw-bold">@PENDING</span>
+						</div>
+						<div class="row">Bài đăng chờ duyệt</div>
+					</div>
+					<div class="col-3 p-0 ms-auto mt-2">
+						<i class="fas fa-align-right fs-1"></i>
+					</div>
+				</div>
+				<div class="row w-100 ms-0 mt-3 justify-content-center  text-light py-2" style="background-color:#ac2c26">
+					<div class="col-auto p-0 mx-auto">Xêm thêm <i class="fas fa-arrow-circle-right"></i></div>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+
+<div class="row w-100 px-3 text-center mt-5">
+	<span class="text-uppercase" style="font-size: 35px">Nền tảng kết nối thuê nhà, phòng trọ, khách sạn và homestay</span>
+</div>
+<div class="row w-100 px-3 text-center mt-3">
+	<span class="" style="font-size: 15px">Số 132 - Đường 3/2 - Phường Hưng Lợi - Quận Ninh Kiều - Thành Phố Cần Thơ</span>
+</div>
+<script>
+	const xValues = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
+	new Chart("myChart", {
+		type: "line",
+		data: {
+			labels: xValues,
+			datasets: [{
+				data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+				borderColor: "red",
+				fill: false
+			}, {
+				data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+				borderColor: "green",
+				fill: false
+			}, {
+				data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+				borderColor: "blue",
+				fill: false
+			}]
+		},
+		options: {
+			legend: { display: false }
+		}
+	});
+</script>

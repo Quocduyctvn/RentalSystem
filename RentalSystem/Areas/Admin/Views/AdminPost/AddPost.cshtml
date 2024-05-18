@@ -1,0 +1,413 @@
+﻿@using RentalSystem.WebConfig.Constant
+@model RentalSystem.Areas.User.ViewModels.AddOrUpdatePostVM
+@{
+
+}
+
+<!-- ======================================================= -->
+<div class="col pe-0 bg-light mx-2 rounded-1 ps-4">
+	<div class="row w-75 ms-1 pt-3 bg-light rounded-1">
+		<div class="col-auto p-0 pe-2 fw-bold  ps-2"><a asp-action="Index" class="text-decoration-none">Quản lý /</a></div>
+		<div class="col-auto p-0 ">Thêm mới bài đăng</div>
+	</div>
+	<form asp-action="AddPost" asp-controller="AdminPost" method="post" enctype="multipart/form-data">
+		<div class="row w-100 p-2 ps-1 mt-2 ms-1 fs-3 fw-bold">
+			<div class="col p-0 pt2">Thêm mới bài đăng</div>
+			<div class="col-auto ms-auto px-2 ms-1 fs-5 py-1 rounded-2 text-center">
+				<button type="submit" class="btn fw-bold text-light bg-success" style="padding: 7px 10px">Thêm mới bài đăng</button>
+			</div>
+		</div>
+		<hr class="m-0">
+		<div class="row ms-1 w-100">
+			<div class="col p-0 ps-2 mb-5 me-5">
+				<div class="row p-2 fs-5 fw-bold">Địa chỉ cho thuê</div>
+				<div class="row ps-1">
+					<div class="col-auto px-3 ps-3 mt-2">
+						<div class="row fs-6 fw-bold">Tỉnh/ Thành phố</div>
+						<div class="row mt-1">
+							@* <select id="provinces" asp-for="ThanhPho" class=" form-control rounded-1 w-100 border border-2 border-none  px-4">
+							</select> *@
+							<select id="provinces" asp-for="appAddress.City" class=" form-control rounded-1 w-100 border border-2 border-none  px-4">
+							</select>
+						</div>
+					</div>
+					<div class="col-auto px-3 mt-2">
+						<div class="row fs-6 fw-bold">Quận/ Huyện</div>
+						<div class="row mt-1">
+							<select id="districts" asp-for="appAddress.District" class=" form-control rounded-1 w-100 border border-2 border-none  px-4">
+								<option value='0'> -- Chọn Quận / Huyện -- </option>
+							</select>
+						</div>
+					</div>
+					<div class="col-auto px-3 mt-2">
+						<div class="row fs-6 fw-bold">Xã/ Phường</div>
+						<div class="row mt-1">
+							<select id="wards" asp-for="appAddress.Wards" class=" form-control rounded-1 w-100 border border-2 border-none  px-4">
+								<option value='0'> -- Chọn Xã / Phường -- </option>
+							</select>
+						</div>
+					</div>
+					<div class="col-auto px-3  mt-2">
+						<div class="row fs-6 fw-bold"> Đường/Phố </div>
+						<div class="row mt-1">
+							<input id="ap" asp-for="appAddress.Street" class="form-control rounded-1 w-100 border border-2 border-none  px-2" type="text" placeholder=" Đường/Phố " />
+						</div>
+					</div>
+					<div class="col-auto px-3 mt-2">
+						<div class="row fs-6 fw-bold">Số nhà</div>
+						<div class="row mt-1 ">
+							<input id="sonha" asp-for="appAddress.ApartmentNumber" class="form-control rounded-1 w-100 border border-2 border-none  px-2" type="text" placeholder="Số nhà" />
+						</div>
+					</div>
+				</div>
+				<div class="row p-2 ps-1">
+					<div class="fs-6 p-0 ps-1"><span class="fw-bold">Địa chỉ chính xác:</span> <span id="fullmap" class="text-danger ps-2">Vui lòng nhập thông tin đầy đủ </span></div>
+				</div>
+				<div class="row p-2 ps-2 mt-3 fs-5 fw-bold">
+					<div class="col p-0">
+						Thông tin mô tả
+					</div>
+				</div>
+
+				<div class="row p-2">
+					<div class="col-3 p-0">
+						<div class="row  px-2 ps-3 fw-bold mb-1">Nhóm danh mục cho thuê </div>
+						<select asp-for="IdTypeOfService" class="form-select" aria-label="Default select example">
+							@foreach (var item in ViewBag.AppTypeOfServices)
+							{
+								<option value="@item.IdTypeOfService">@item.Name</option>
+							}
+						</select>
+					</div>
+					<div class="col-8 ms-auto p-0 ">
+						<div class="row  px-2 fw-bold mb-1 ps-3">Tiêu đề cho thuê </div>
+						<input asp-for="Title" class="form-control" type="text" />
+					</div>
+				</div>
+				<div class="row p-2">
+					<div class="col-3 p-0 ps-1  fw-bold">
+						<div class="row px-2 mb-1">Giá cho thuê</div>
+						<div class="row w-100">
+							<div class="col-8 p-0 ps-2">
+								<input asp-for="RtalPrice" class="form-control ps-2 border border-secondary" type="text" style="border-radius: 7px 0 0 7px" />
+							</div>
+							<div class="col-4 p-0">
+								<select asp-for="IdTimeRtalPrice" class="form-control px-2 text-center border border-secondary form-select" style="border-radius: 0 7px 7px 0; width: 104px">
+									@foreach (var item in ViewBag.RtalPriceOfCateTime)
+									{
+										<option value="@item.IdTime">@item.Name</option>
+									}
+								</select>
+							</div>
+						</div>
+						<p class="mt-1 text-secondary" style="font-size: 10px;">Nhập đầy đủ số, ví dụ 1 triệu thì nhập là 1000000</p>
+						<div class="row px-2 mb-1">Diện tích</div>
+						<div class="row px-2 mb-2">
+							<div class="col-10 p-0">
+								<input asp-for="Area" class="form-control ps-2 border border-secondary" type="text" style="border-radius: 7px 0 0 7px" />
+							</div>
+							<div class="col p-0">
+								<button type="button" class="form-control px-2 text-center border border-secondary" style="border-radius: 0 7px 7px 0">m <sup>2</sup></button>
+							</div>
+						</div>
+						<div class="row px-2 mb-2">
+							<div class="col p-0">
+								<div class="row ps-2 mb-1  fw-bold"><span class="ps-1">Đối tượng cho thuê</span></div>
+								<select asp-for="IdRentalObject" class="form-control form-select px-2 ps-0 text-center border border-secondary">
+									@foreach (var item in ViewBag.RtalObject)
+									{
+
+										<option value="@item.IdRentalObject">@item.Name</option>
+									}
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-8 ms-auto p-0">
+						<div class="row  px-2 fw-bold mb-1 ps-3">Nội dung mô tả ngắn (20 -40 chữ)</div>
+						<textarea asp-for="Summary" class="form-control border border-secondary" rows="3"></textarea>
+
+						<div class="row  px-2 fw-bold mb-1 mt-3 ps-3">Nội dung mô tả chi tiết</div>
+						<textarea asp-for="Desc" id="DescriptionPost" class="form-control border border-secondary" rows="9"></textarea>
+					</div>
+				</div>
+
+
+				<div class="row  px-1 fs-5 fw-bold mt-4 mb-2 ps-2">
+					<div class="col-auto p-0">
+						<span>Chọn hình thức đăng tin</span>
+					</div>
+				</div>
+
+				<div class="row mt-2">
+					<div class="col-auto p-0 px-2 ps-3 me-1">
+						<div class="row px-2 mb-2 fw-bold">Thời gian đăng trên website</div>
+						<div class="row">
+							<div class="col-8 p-0 ps-2">
+								<input asp-for="TotalPostTime" type="number" min="@Model.TotalPostTime" class="form-control ps-2 border border-secondary" style="border-radius: 7px 0 0 7px" />
+							</div>
+							<div class="col p-0">
+								<select asp-for="IdTotalPostTime" class="form-control form-select px-2 text-center border border-secondary" style="border-radius: 0 7px 7px 0">
+									@foreach (var item in ViewBag.RtalPriceOfCateTime)
+									{
+										if (item.Name != "Giờ")
+										{
+											<option value="@item.IdTime">@item.Name</option>
+										}
+									}
+								</select>
+
+							</div>
+						</div>
+						<span class="mt-1 mb-0" style="font-size: 12px;"><i>Vd: 5 ngày(Nhập 5) - 3 tuần(Nhập 3)</i></span>
+						<span class="mt-1 text-danger mb-0" style="font-size: 12px;"><i>Tối thiểu 5 ngày</i></span>
+					</div>
+					<div class="col-5 ms-5 ps-5 me-2 p-0 fw-bold">
+						<div class="row px-2 mb-2">Chọn loại tin</div>
+						<div class="row px-2 fs-6 mt-1">
+							<select asp-for="IdCategory" class="col rounded-1 py-2 mb-3" aria-label="Large select example">
+								@foreach (var item in ViewBag.AppCate)
+								{
+									<option value="@item.IdCategory ">@item.Name (@String.Format("{0:000,0}", item.Price)/ngày)</option>
+								}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="row  w-auto px-2 mt-4">
+					<input type="checkbox" asp-for="Haslable" checked class="col-auto p-0 form-check-input border border-black mt-1 me-2" />
+					<div class="col fw-bold  p-0">Có gắn nhãn làm nỗi bật (2 ngàn/ Ngày)</div>
+				</div>
+
+				<div class="row w-auto px-2 mt-2">
+					<div class="row w-100  mt-3">
+						<div class="col-5 p-0 ms-2">
+							<span class="row ps-1 mb-1 fw-bold" style="left: -10px;">Tải ảnh bìa</span>
+							<div class="row w-100 position-relative">
+								<div class=" p-0 mt-2 mx-3" style="opacity: 1; width: 463px">
+									<div class="row text-center justify-content-center align-items-center" style="border: dotted 2px rgb(139, 139, 139); height: 200px">
+										<i class="fas fa-cloud-upload-alt" style="font-size: 90px; color: rgb(10, 176, 202)"></i>
+									</div>
+								</div>
+								<div class="col p-0 mt-2 mx-3 position-absolute" style="opacity: 0">
+									<input asp-for="Path" id="fileInput" class="form-control border border-secondary" id="imgPost" type="file" style="height: 200px" />
+								</div>
+							</div>
+							<span class="fs-6 text-success position-relative" style="left: -10px;" id="lableImgPost"></span>
+						</div>
+						<div class="col-5 p-0 ms-auto">
+							<span class="row px-1 mb-1 fw-bold" style="left: -10px;">Ảnh phụ</span>
+							<div class="row position-relative">
+								<div class="col p-0 mt-2 mx-3" style="opacity: 1">
+									<div class="row text-center justify-content-center align-items-center" style="border: dotted 2px rgb(139, 139, 139); height: 200px; width: 478px">
+										<i class="fas fa-upload" style="font-size: 90px; color: #7ec3a8"></i>
+									</div>
+								</div>
+								<div class="col p-0 mt-2 mx-3 position-absolute" style="opacity: 0">
+									<input asp-for="appImgPosts" class="form-control border border-secondary" id="imgsPost" type="file" style="height: 200px" accept="image/*" multiple />
+								</div>
+							</div>
+							<span class="fs-6  text-success position-relative" style="left: -10px;" id="lableImgsPost"></span>
+						</div>
+					</div>
+					<div class="row mt-0">
+						<div class="col-5 p-0 ms-2 mt-4">
+							<div class="row">
+								<div class="col-auto p-0 ps-1 position-relative">
+									<div id="imageContainer"
+										 style="border-style: dashed; width: 100px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+										<span class="text-center">Chưa Chọn Ảnh</span>
+									</div>
+									<span class="position-absolute" id="closeImg" style="top: -14px; right: -18px; z-index: 1; display: none;">
+										<i class="fas fa-times-circle text-danger fs-4"></i>
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="col-5 p-0 ms-auto">
+							<div id="multipleImagesContainer" class="row mt-2"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	document.getElementById("imageContainer").style.display = "none";
+	document.getElementById("closeImg").style.display = "none";
+	document.getElementById('fileInput').addEventListener('change', function () {
+		var file = this.files[0];
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			var imageContainer = document.getElementById('imageContainer');
+			imageContainer.innerHTML = '<img src="' + e.target.result + '" style="width: 100%; height: 100%; object-fit: contain;">';
+			imageContainer.style.display = "block";
+			document.getElementById("closeImg").style.display = "block";
+		};
+		reader.readAsDataURL(file);
+	});
+	document.getElementById("closeImg").addEventListener("click", () => {
+		document.getElementById('fileInput').value = null;
+		document.getElementById("imageContainer").style.display = "none";
+		document.getElementById("closeImg").style.display = "none";
+	})
+</script>
+<script>
+	var selectedImages = [];
+
+	document.getElementById('imgsPost').addEventListener('change', function () {
+		var files = this.files;
+		var imagesContainer = document.getElementById('multipleImagesContainer');
+		imagesContainer.innerHTML = '';
+		selectedImages = [];
+
+		for (var i = 0; i < files.length; i++) {
+			var file = files[i];
+			selectedImages.push(file);
+
+			var reader = new FileReader();
+
+			reader.onload = (function (file) {
+				return function (e) {
+					var imageDiv = document.createElement('div');
+					imageDiv.className = 'position-relative';
+					imageDiv.style.width = "120px"
+					imageDiv.style.padding = "0 3px";
+					var img = document.createElement('img');
+					img.src = e.target.result;
+					img.style.width = '100px';
+					img.style.height = '100px';
+					img.style.objectFit = 'contain';
+					imageDiv.appendChild(img);
+
+					var deleteIcon = document.createElement('i');
+					deleteIcon.className = 'fas fa-times-circle text-danger fs-4 position-absolute';
+					deleteIcon.style.top = '0px';
+					deleteIcon.style.right = '5px';
+					deleteIcon.style.cursor = 'pointer';
+					deleteIcon.onclick = function () {
+						var index = selectedImages.indexOf(file);
+						if (index > -1) {
+							selectedImages.splice(index, 1);
+							imagesContainer.removeChild(imageDiv);
+							updateLabel();
+						}
+					};
+					imageDiv.appendChild(deleteIcon);
+
+					imagesContainer.appendChild(imageDiv);
+				};
+			})(file);
+
+			reader.readAsDataURL(file);
+		}
+	});
+
+	document.getElementById("clearImgs").addEventListener("click", () => {
+		document.getElementById('imgsPost').value = null;
+		document.getElementById("multipleImagesContainer").innerHTML = '';
+		document.getElementById("lableImgsPost").innerText = "";
+		selectedImages = [];
+	});
+
+</script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		// Lấy dữ liệu tỉnh/thành phố từ API và thiết lập giá trị mặc định từ Model (nếu có)
+		fetch("https://api.mysupership.vn/v1/partner/areas/province")
+			.then(response => response.json())
+			.then(data => {
+				var provinces = document.getElementById("provinces");
+				// Xóa tất cả các option hiện có trước khi thêm mới
+				provinces.innerHTML = "";
+				// Thêm option mặc định nếu không có dữ liệu từ Model
+				if (provinces.options.length === 0) {
+					var defaultOption = document.createElement("option");
+					defaultOption.value = "0";
+					defaultOption.text = " -- Chọn thành phố -- ";
+					provinces.appendChild(defaultOption);
+				}
+				// Thêm dữ liệu từ API vào select box
+				data.results.forEach(province => {
+					var option = document.createElement("option");
+					option.data = province.code;
+					option.value = province.name;
+					option.text = province.name;
+					provinces.appendChild(option);
+				});
+			})
+			.catch(error => {
+				console.error('Error:', error);
+			});
+
+		// Cập nhật các select box khác khi thành phố được chọn
+		document.getElementById("provinces").addEventListener("change", event => {
+			var selectedIndex = event.target.selectedIndex;
+			var tp = event.target.options[selectedIndex].data;
+
+			fetch(`https://api.mysupership.vn/v1/partner/areas/district?province=${tp}`)
+				.then(res => res.json())
+				.then(data => {
+					var districts = document.getElementById("districts");
+					districts.innerHTML = "<option value='0'> -- Chọn quận/huyện -- </option>";
+					data.results.forEach(district => {
+						var option = document.createElement("option");
+						option.data = district.code;
+						option.value = district.name;
+						option.text = district.name;
+						districts.appendChild(option);
+					});
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+		});
+
+		// Cập nhật xã/phường khi quận/huyện được chọn
+		document.getElementById("districts").addEventListener("change", event => {
+			var selectedIndex = event.target.selectedIndex;
+			var districtCode = event.target.options[selectedIndex].data;
+			fetch(`https://api.mysupership.vn/v1/partner/areas/commune?district=${districtCode}`)
+				.then(res => res.json())
+				.then(data => {
+					var wards = document.getElementById("wards");
+					wards.innerHTML = "<option value='0'> -- Chọn xã/phường -- </option>";
+					data.results.forEach(ward => {
+						var option = document.createElement("option");
+						option.data = ward.code;
+						option.value = ward.name;
+						option.text = ward.name;
+						wards.appendChild(option);
+					});
+				})
+				.catch(error => {
+					console.error('Error:', error);
+				});
+		});
+
+		document.getElementById("sonha").addEventListener("change", function () {
+			var province = document.getElementById("provinces").options[document.getElementById("provinces").selectedIndex].text;
+			var district = document.getElementById("districts").options[document.getElementById("districts").selectedIndex].text;
+			var ward = document.getElementById("wards").options[document.getElementById("wards").selectedIndex].text;
+			var ap = document.getElementById("ap").value;
+			var numberHome = document.getElementById("sonha").value;
+			var address = numberHome + ' - ' + ap + ' - ' + ward + ' - ' + district + ' - ' + province;
+			document.getElementById("fullmap").innerText = address;
+		});
+	});
+</script>
+<script>
+	document.getElementById("statusSelect").addEventListener("change", function () {
+		var selectedValue = this.value;
+		var submitButton = document.getElementById("ChangeStatus");
+
+		if (selectedValue === "@AppPostStatus.EXPIRED") {
+			submitButton.style.display = "block";
+		} else {
+			submitButton.style.display = "none";
+		}
+	});
+</script>

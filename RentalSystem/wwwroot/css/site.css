@@ -1,0 +1,138 @@
+﻿html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+#toast-container {
+    background-color: #4CAF50; /* Thay đổi màu nền thành màu xanh lá cây đậm */
+    color: rgb(0,0,0);
+}
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: rgb(226, 226, 226);
+}
+
+.text-underline {
+    text-decoration: underline;
+    text-decoration-color: aliceblue;
+}
+
+.text-primary-custom {
+    color: #0d6efd;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.hover-red:hover {
+    color: #da4d64;
+}
+.hover-background-secondary:hover {
+    background-color: rgb(211, 211, 211);
+}
+.hover-secondary:hover {
+    color: rgb(88, 88, 88);
+}
+
+.hover-underline:hover {
+    text-decoration: underline;
+    text-decoration-color: rgb(42, 53, 63);
+}
+
+.menuCategory:hover {
+    background-color: #f68699;
+}
+
+.modelItemCate:hover {
+    background-color: #fecbd3;
+}
+
+#scroll {
+    display: none;
+    background-color: rgb(255, 255, 255);
+    color:darkseagreen;
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    bottom: 20px;
+    right: 10px;
+    text-align: center;
+    font-size: 25px;
+    padding-top: 10px;
+    border-radius: 10px;
+}
+
+    #scroll:hover {
+        background-color: rgb(238, 238, 238)
+    }
+/*//===================================Add Icon cho thẻ option ===============================================*/
+.custom-select {
+    appearance: none;
+    -webkit - appearance: none;
+    -moz - appearance: none;
+    background - image: url('data:image/svg+xml;utf8,<svg fill="%23333333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background - repeat: no - repeat;
+    background - position: right 5px top 50 %;
+    padding - right: 20px; /* Adjust as needed */
+}
+/*=========================================================================================*/
+.card_box {
+  position: relative;
+}
+
+
+.card_box > span {
+  position: absolute;
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+  top: 2px;
+  left: -0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.card_box > span::before {
+  content: 'Thuê nhanh';
+  position: absolute;
+  width: 150%;
+  height: 40px;
+  background-image: linear-gradient(45deg, #ff6547 0%, #ffb144  51%, #ff7053  100%);
+  transform: rotate(-45deg) translateY(-20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.23);
+  font-size: 14px;
+}
+
+.card_box > span::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  bottom: 0;
+  left: 0;
+  height: 10px;
+  z-index: -1;
+  box-shadow: 140px -140px #cc3f47;
+  background-image: linear-gradient(45deg, #FF512F 0%, #F09819  51%, #FF512F  100%);
+}

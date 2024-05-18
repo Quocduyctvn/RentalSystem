@@ -1,0 +1,59 @@
+﻿@model RentalSystem.Models.AppPosts
+@{
+    var user = TempData["User"] as AppUsers;
+}
+
+<div class="col pe-0 bg-light mx-2 mt-5 rounded-1 ps-4">
+	<div class="row w-75 ms-1 pt-3 bg-light rounded-1">
+		<div class="col-auto p-0 pe-2 fw-bold  ps-2"><a href="#" class="text-decoration-none">Quản lý /</a></div>
+		<div class="col-auto p-0 ">Thanh toán</div>
+	</div>
+	<div class="row p-2 ps-1 mt-2 ms-1 fs-3 fw-bold">Thanh toán</div>
+	<hr class="m-0">
+	<div class="row ms-1 mt-3">
+		<div class="col-xxl-7 p-0 ps-2 mb-5 me-5">
+            <div class="fs-3" style="font-weight: 400;">Căn hộ cho Sinh viên ngay trung tâm Thành phố cần thơ</div>
+
+            <div class="row ps-3 fs-5 fw-bold mt-1">
+                Chọn phương thức thanh toán
+            </div>
+            <form asp-action="Checkout" asp-controller="UserPost" asp-route-id="@Model.IdPost" method="post">
+                <div class="row ps-3 mt-2">
+                    <div class="col-auto p-0">
+                        <input type="radio" class="mt-2  form-check-input" name="methodPayment" value="Booking.com">
+                    </div>
+                    <div class="col pt-1">Trừ tiền trong tài khoản Booking.Com (Bạn đang có: TK Chính @String.Format("{0:000,0}", user.AccountBalance) Đồng) </div>
+                </div>
+                <div class="row ps-3 mt-2">
+                    <div class="col-auto p-0">
+                        <input type="radio" class="mt-2  form-check-input" name="methodPayment" value="PayPal">
+                    </div>
+                    <div class="col pt-1">Thanh toán qua ví điện tử PAYPAL </div>
+                </div>
+                @* <div class="row fs-3 ms-4"><i class="fab fa-cc-paypal" style="color: rgb(86, 111, 254)"></i></div> *@
+                <div class="row ps-3 mt-2">
+                    <div class="col-auto p-0">
+                        <input type="radio" class="mt-2 form-check-input" name="methodPayment" value="ShopeePay">
+                    </div>
+                    <div class="col pt-1">Thanh toán qua ví điện tử ShopeePay  </div>
+                </div>
+                <div class="row ps-3 mt-2">
+                    <div class="col-auto p-0">
+                        <input type="radio" class="mt-2 form-check-input" name="methodPayment" value="InternationalCard">
+                    </div>
+                    <div class="col pt-1">Thanh toán qua thẻ quốc tế</div>
+                </div>
+                <div class="row ps-3 fs-6 mt-3 text-danger">
+                    Tổng tài khoản chính tại Booking.Com: @String.Format("{0:000,0}", user.AccountBalance) Đồng
+                </div>
+                <div class="row ps-3 fs-5 fw-bold mt-1">
+                    Tổng thanh toán:  @String.Format("{0:000,0}", Model.TotalMoney) Đồng
+                </div>
+                <div class="row ps-3 fs-6 mt-1 text-danger mt-4">
+                    <button class="btn btn-success col-auto p-2 px-5 ">Thanh toán</button>
+                    <a asp-action="Index" asp-controller="UserHome" class="text-decoration-none col-auto pt-4"> <i class="far fa-hand-point-left" style="color: #FFD43B;"></i> Quay Trang quản lý</a>
+                </div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model RentalSystem.Areas.Admin.ViewModels.AdminPolicyVM
+
+<div class="container-fluid p-0">
+	<form asp-action="Update" method="post" enctype="multipart/form-data">
+		<div class="row w-100 ps-4 ">
+			<div class="col-auto p-0 ps-2">
+				<a asp-action="Index" asp-controller="AdminPolicy" class="text-decoration-none">Quản lý chính sách /</a>
+			</div>
+			<div class="col-auto p-0 ms-1">
+				<i>Cập nhật chính sách</i>
+			</div>
+		</div>
+		<div class="row w-100 fs-4 ps-4  pt-2" style="font-weight: 500">
+			<div class="col-auto p-0 ps-2">Cập nhật chính sách</div>
+			<div class="col-auto p-0 pe-3 ms-auto"><button class="btn btn-success px-3"><i class="fas fa-plus-circle "></i> Cập nhật </button></div>
+
+		</div>
+		<hr />
+		<div class="row w-100">
+			<div class="col p-0 ps-5">
+				<div class="row  w-100">
+					<div class="col-2 p-0 text-end pe-2 fw-bold">Tên chính sách: </div>
+					<div class="col p-0">
+						<input type="text" asp-for="Name" class="form-control" />
+						<span asp-validation-for="Name"></span>
+					</div>
+
+				</div>
+				<div class="row mt-3  w-100">
+					<div class="col-2 text-end pe-2 p-0 fw-bold">Nội dung chính sách: </div>
+					<div class="col p-0">
+						<textarea id="contentFeedback" asp-for="Description" rows="25"></textarea>
+						<span asp-validation-for="Description" class="fst-italic text-danger"></span>
+					</div>
+				</div>
+				<div class="row mt-3 w-100">
+					<a asp-action="Index" asp-controller="AdminPolicy" class="text-decoration-none p-0 w-auto">Quay về trang danh sách</a>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+

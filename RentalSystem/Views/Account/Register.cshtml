@@ -1,0 +1,38 @@
+﻿@model RentalSystem.ViewModels.AppRegisterVM;
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<div class="container  d-flex justify-content-center mt-4">
+    <form asp-action="Register" methob="POST">
+        <div class=" mt-1 rounded-2 p-3" style="width: 500px; background-color: rgb(226,226,226)">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row fw-bold fs-4 px-3 mb-2">Tạo tài khoản mới</div>
+            <div class="row text-uppercase px-3" style="font-size: 13px;">Họ tên</div>
+            <div class="row px-3 mt-2">
+                <input type="text" asp-for="Name" class="form-control" placeholder="" />
+            </div>
+            <span asp-validation-for="Name" class="text-danger  ms-2"></span>
+            <div class="row text-uppercase px-3" style="font-size: 13px;">Số điện thoại Zalo</div>
+            <div class="row px-3 mt-2">
+                <input type="text" asp-for="PhoneNumberZL" class ="form-control" placeholder="" />
+            </div>
+            <span asp-validation-for="PhoneNumberZL" class="text-danger ms-2"></span>
+            <div class="row text-uppercase px-3" style="font-size: 13px;">Tạo mật khẩu</div>
+            <div class="row px-3 mt-2">
+                <input type="password" asp-for="Password" class="form-control" placeholder="" />
+            </div>
+            <span asp-validation-for="Password" class="text-danger  ms-2"></span>
+            <div class="row text-uppercase px-3 ">
+                <button type="submit" class="border border-none py-2 bg-primary rounded-2 hover-text-light fw-bold">Tạo tài khoản</button>
+            </div>
+            <div class="row px-3 mt-3">
+                <div class="col p-0">Bấm vào nút đăng ký tức là bạn đã đồng ý với 
+                    <a asp-action="Index" asp-controller="Policy" asp-route-id="4" class="text-primary text-decoration-none hover-red">quy định sử dụng</a> của chúng tôi</div>
+            </div>
+            <div class="row px-3 mt-3 mb-3">
+                <div class="col p-0">Bạn đã có tài khoản ?<a asp-action="Login" class="text-primary text-decoration-none hover-red"> Đăng nhập ngay</a></div>
+            </div>
+        </div>
+    </form>
+</div>

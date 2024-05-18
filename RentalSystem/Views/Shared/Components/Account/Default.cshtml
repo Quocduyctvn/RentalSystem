@@ -1,0 +1,21 @@
+﻿@if (ViewBag.logged == "logged")
+{
+    <div class="col-auto mt-1 pointer hover-underline">
+        <a asp-action="Index" asp-controller="UserHome" asp-area="User" class="text-decoration-none text-black">
+            <i class="fas fa-sliders-h"></i> Quản lý tài khoản
+        </a>
+    </div>
+}
+else
+{
+    <div class="col-auto mt-1 pointer hover-underline">
+        <a asp-action="Login" asp-controller="Account" class="text-decoration-none text-black">
+            <i class="fas fa-sign-in-alt me-1" style="color:#cf9c15"></i> Đăng nhập
+        </a>
+    </div>
+    <div class="col-auto mt-1 pointer hover-underline">
+        <a asp-action="Register" asp-controller="Account" class="text-decoration-none text-black">
+            <i class="fas fa-user-plus me-1" style="color:#cf9c15"></i> Đăng ký
+        </a>
+    </div>
+}

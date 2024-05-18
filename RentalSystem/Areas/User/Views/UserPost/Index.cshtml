@@ -1,0 +1,163 @@
+﻿@model X.PagedList.IPagedList<RentalSystem.Models.AppPosts>
+@using RentalSystem.WebConfig.Constant
+
+
+<div class="col pe-0 bg-light mx-2 mt-5 mb-4 pb-3 rounded-1 ps-4">
+	<div class="row w-100 p-2  mt-5 pt-3 bg-light rounded-1">
+		<div class="col-auto p-0 pe-2 fw-bold"><a asp-action="Index" asp-controller="UserHome" asp-area="User" class="text-decoration-none">Quản lý /</a></div>
+		<div class="col-auto p-0">Quản lý tin đăng</div>
+	</div>
+	<div class="row w-100 p-2  fs-4 fw-bold">
+		<div class="col-auto p-0">Quản lý tin đăng</div>
+		<div class="col-auto ms-auto p-0 mt-1">
+			<div class="row">
+				<div class="col-auto p-0">
+					<select id="categoryId" class="form-select form-select-sm" aria-label="Small select example">
+						<option value="-1">Lọc tất cả </option>
+						@foreach (var item in ViewBag.Category)
+						{
+							<option value="@item.IdCategory">@item.Name</option>
+						}
+					</select>
+				</div>
+				<div class="col-auto p-0 me-3 ms-3">
+					<select id="statusSelect" class="form-select form-select-sm" aria-label="Small select example">
+						<option selected>Lọc theo trạng thái hiển thị</option>
+						<option value="@AppPostStatus.PENDING">Chờ duyệt</option>
+						<option value="@AppPostStatus.APPROVED">Đang sử dụng</option>
+						<option value="@AppPostStatus.UNPAID">Chưa thanh toán</option>
+						<option value="@AppPostStatus.BOOKED">Đã đặt</option>
+						<option value="@AppPostStatus.EXPIRED">Hết hạn</option>
+						<option value="@AppPostStatus.HIDDEN">Ẩn</option>
+					</select>
+				</div>
+				<button class="col p-0 p-2  py-1 px-2 me-3 rounded-1 border border-none btn btn-danger btn-outline-success" style=" font-size: 14px;">
+					<a asp-action="AddOrUpdatePost" asp-controller="UserPost" class="text-decoration-none text-light">Đăng tin ngay </a>
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row w-100 p-2 " style="font-size: 14px">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th style="min-width: 80px">Mã tin</th>
+					<th style="width: 100px">Ảnh đại diện</th>
+					<th>Tiêu đề</th>
+					<th style="width: 120px" class="text-center">SL khách Y/C</th>
+					<th style="min-width: 180px" class="text-center">Thời gian</th>
+					<th style="min-width: 130px;">Trạng thái</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<th>@item.MaPost</th>
+						<td><img src="@item.Path" class="rounded-3" width="80px" height="80px" /></td>
+						<td>
+							<span class=" rounded-3 text-light" style="font-size:12px; padding: 1px 7px; background-color: #ffb219">@item.appTypeOfService.Name</span>
+							<span style="color: @item.appCategory.TitleColor" class="fw-bold">@item.Title</span>
+							<p class="text-danger m-0">
+								[@item.appCategory.Name]
+								<span class="text-black">[Giá thuê: @String.Format("{0:000,0}", item.RtalPrice) <sup class="text-success text-decoration-underline">Đ</sup>]</span>
+							</p>
+							@* <p class="m-0 my-1">Địa chỉ: @item.appAddress.FullAdress</p> *@
+							<p class="m-0 my-1">
+								<i>Cập nhật lần cuối: @item.CreatedDate.ToString("dd/MM/yyyy")</i>
+								<a asp-action="AddOrUpdatePost" asp-controller="UserPost" asp-route-id="@item.IdPost" class="text-decoration-none">
+									<span class=" rounded-1 text-light ms-2 p-2 py-1" style="font-size:12px; padding: 1px 7px; background-color: #d2d2d2">
+										<i class="fas fa-redo"></i> Cập nhật
+									</span>
+								</a>
+							</p>
+
+						</td>
+						<td>
+							<a asp-action="Index" asp-controller="UserRequest" asp-route-id="@item.IdPost" class="text-decoration-none">
+								<p class="m-0 pb-1 text-center"><i>@item.appRequest.Count yêu cầu</i></p>
+								<p class="m-0 pb-1 text-center">
+									<span class=" rounded-1 text-light p-2 py-1" style="font-size:12px; padding: 1px 7px; background-color: #d2d2d2">
+										<i class="fas fa-qrcode"></i> Xem chi tiết
+									</span>
+								</p>
+							</a>
+						</td>
+						<td>  @item.StartDay.ToString("dd/MM/yyyy") <i class="fas fa-arrow-right"></i> @item.ExpirationDate.ToString("dd/MM/yyyy")</td>
+						<td style="color: #ff7e26">
+							@if (item.PostStatus == RentalSystem.WebConfig.Constant.AppPostStatus.PENDING)
+							{
+								<span>Chờ duyệt</span>
+							}
+							@if (item.PostStatus == RentalSystem.WebConfig.Constant.AppPostStatus.APPROVED)
+							{
+								if (item.appHistoryPayments != null && item.appHistoryPayments.IdPost == item.IdPost)
+								{
+									if (item.appHistoryPayments.Status == AppTransactionStatus.SUCCESS)
+									{
+										<span>Đang hoạt động</span>
+									}
+									else
+									{
+										<span>Chưa thanh toán</span>
+									}
+								}
+
+							}
+
+							@if (item.PostStatus == RentalSystem.WebConfig.Constant.AppPostStatus.EXPIRED)
+							{
+								<span>Hết hạn</span>
+							}
+							@if (item.PostStatus == RentalSystem.WebConfig.Constant.AppPostStatus.BOOKED)
+							{
+								<span>Đã đặt</span>
+							}
+							@if (item.PostStatus == RentalSystem.WebConfig.Constant.AppPostStatus.HIDDEN)
+							{
+								<span>Đã ẩn</span>
+							}
+						</td>
+
+					</tr>
+				}
+			</tbody>
+		</table>
+		<div class="pagination">
+			@for (int i = 1; i <= Model.PageCount; i++)
+			{
+				<div class="page-number @(Model.PageNumber == i ? "active" : "") px-2 btn btn-primary me-1">
+					<a href="@Url.Action("Index", new { page = i })" class="text-decoration-none text-light">@i</a>
+				</div>
+			}
+		</div>
+		<p class="p-0">
+			@if (ViewBag.searched != null && !string.IsNullOrEmpty(ViewBag.searched.ToString()))
+			{
+				<div class="text-center">
+					<span class="text-danger"><i>Kết quả tìm kiếm [@Model.Count()] item cho [@ViewBag.searchName] </i></span> <a asp-action="Index" class="text-decoration-none text-center" style="display: inline-block">Đặt lại</a>
+				</div>
+			}
+			<span style="font-size: 12px"><i>Danh sách này có tổng cộng @ViewBag.TotalPost.Count bản ghi</i></span>
+		</p>
+	</div>
+</div>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		document.getElementById("categoryId").addEventListener("change", function () {
+			filterData();
+		});
+
+		document.getElementById("statusSelect").addEventListener("change", function () {
+			filterData();
+		});
+
+		function filterData() {
+			var categoryId = document.getElementById("categoryId").value;
+			var status = document.getElementById("statusSelect").value;
+
+			// Chuyển hướng đến action Index với các tham số lọc
+			window.location.href = '/User/UserPost/Index?selectedCategoryId=' + categoryId + '&status=' + status;
+		}
+	});
+</script>

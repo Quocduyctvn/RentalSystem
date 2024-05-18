@@ -1,0 +1,117 @@
+﻿@model IEnumerable<RentalSystem.Models.AppRequest>
+@{
+	int count = 1;
+}
+<div class="col pe-0 bg-light mx-2 mt-5 mb-4 pb-3 rounded-1 ps-4">
+	<div class="row w-100 p-2  mt-5 pt-3 bg-light rounded-1">
+		<div class="col-auto p-0 pe-2 fw-bold"><a asp-action="Index" asp-controller="UserPost" asp-area="User" class="text-decoration-none">Quản lý /</a></div>
+		<div class="col-auto p-0">Danh sách yêu cầu</div>
+	</div>
+	<div class="row w-100 p-2 pt-0  fs-5 fw-bold">
+		<div class="col-auto p-0">Danh sách yêu cầu</div>
+	</div>
+	<div class="row w-100 p-2  fs-5 fw-bold">
+		<div class="col p-0 text-center">
+			@foreach (var item in Model)
+			{
+				<span style="color: @item.appPosts.appCategory.TitleColor">
+					<span class="fs-6 text-secondary"><i>Bài viết: </i></span> @item.appPosts.Title
+				</span>
+				break;
+			}
+		</div>
+	</div>
+	<div class="row w-100 p-2 " style="font-size: 14px">
+		<div class="col p-0 mx-3">
+			<div class="row p-2 fs-5 text-uppercase">Thông tin khách hàng</div>
+
+			@foreach (var item in Model)
+			{
+				<div class="col-auto p-0 ms-3">
+					<div class="row p-2 py-0"><div class="col-auto p-0 fw-bold pe-2 fs-6"><span class="pe-2">@count</span>Khách hàng: </div><div class="col-auto p-0 pt-1"> @item.appUsers.Name</div></div>
+					<div class="row p-2 py-0"><div class="col-auto p-0 fw-bold ms-3 pe-2 fs-6">Email: </div><div class="col-auto p-0">@item.appUsers.Email</div></div>
+					@if (item.appContactFeedback != null)
+					{
+						<hr class="m-0 mt-1">
+						<div class="row p-2 fs-6 text-uppercase ms-0" data-bs-toggle="collapse" href="#opend$@item.appPosts.IdPost@item.appUsers.IdUser" role="button" aria-expanded="false" aria-controls="opend$@item.appPosts.IdPost@item.appUsers.IdUser">
+							<div class="col-auto p-0">Thông tin phản hồi </div>
+							<div class="col-auto p-0 ps-1"><i class="fas fa-angle-down"></i></div>
+						</div>
+						<div class="row collapse mx-0 ps-1" id="opend$@item.appPosts.IdPost@item.appUsers.IdUser">
+							<div class="card card-body border border-none">
+								<div calss="col p-0">
+									<div class="row p-2">
+										<div class="col-auto p-0 fw-bold pe-2 fs-6">Subject: </div>
+										<div class="col-auto p-0" style="margin-top: 3px">@item.appContactFeedback.Title</div>
+									</div>
+									<div class="row p-2">
+										<div class="col-auto p-0 fw-bold pe-2 fs-6 mb-2">Nội dung mail: </div>
+										<div class="col-auto p-0">
+											@Html.Raw(item.appContactFeedback.Description)
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					}
+					@if (item.appContactFeedback == null)
+					{
+
+						<p class=" row d-inline-flex gap-1 mt-1 ms-2 ps-1 mx-0">
+							<a class="btn btn-primary py-1" data-bs-toggle="collapse" href="#collapse$@item.appPosts.IdPost@item.appUsers.IdUser" role="button" aria-expanded="false" aria-controls="collapse$@item.appPosts.IdPost@item.appUsers.IdUser">
+								Gửi mail phản hồi ngay
+							</a>
+						</p>
+						<div class="row collapse mx-0 ms-2 ps-1" id="collapse$@item.appPosts.IdPost@item.appUsers.IdUser">
+							<div class="card card-body border border-none">
+								<div calss="col p-0">
+									<form asp-action="SendMail" asp-route-idRequest="@item.IdRequest" asp-route-idPost="@item.appPosts.IdPost" asp-route-idUser="@item.appUsers.IdUser" method="post">
+										<div class="row  w-75  mx-auto">
+											<div class="col p-0">
+												<div class="row">
+													<div class="col-2 p-0 text-end pe-2 fw-bold">Tiêu đề: </div>
+													<div class="col p-0">
+														<input type="text" name="subject" class="form-control" />
+													</div>
+												</div>
+												<div class="row mt-3">
+													<div class="col-2 text-end pe-2 p-0 fw-bold">Nội dung: </div>
+													<div class="col p-0">
+														<textarea id="contentFeedback" name="content"></textarea>
+													</div>
+												</div>
+												<div class="row mt-3">
+													<div class="col-auto p-0 ms-auto"><button class="btn btn-primary px-3" type="submit">Gửi phản hồi</button></div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+				count++;
+			}
+		</div>
+
+		@* 		<div class="pagination">
+		@for (int i = 1; i <= Model.PageCount; i++)
+		{
+		<div class="page-number @(Model.PageNumber == i ? "active" : "") px-2 btn btn-primary me-1">
+		<a href="@Url.Action("Index", new { page = i })" class="text-decoration-none text-light">@i</a>
+		</div>
+		}
+		</div> *@
+		@* <p class="p-0">
+		@if (ViewBag.searched != null && !string.IsNullOrEmpty(ViewBag.searched.ToString()))
+		{
+		<div class="text-center">
+		<span class="text-danger"><i>Kết quả tìm kiếm [@Model.Count()] item cho [@ViewBag.searchName] </i></span> <a asp-action="Index" class="text-decoration-none text-center" style="display: inline-block">Đặt lại</a>
+		</div>
+		}
+		<span style="font-size: 12px"><i>Danh sách này có tổng cộng @ViewBag.TotalPost.Count bản ghi</i></span>
+		</p> *@
+	</div>
+</div>

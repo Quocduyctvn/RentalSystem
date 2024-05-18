@@ -1,0 +1,101 @@
+﻿@using RentalSystem.WebConfig.Constant
+@model RentalSystem.Models.AppContacts
+
+@{
+	var feedback = ViewBag.Feedback as AppContactFeedback;
+	var Role = ViewBag.RolePer as List<AppRolePermission>;
+}
+
+<div class="container-fluid p-0">
+	<div class="row w-100 ">
+		<div class="col pe-0  rounded-1 ps-4 ">
+			<div class="row w-75 ms-1 pt-3">
+				<div class="col-auto p-0 pe-2 fw-bold  ps-2"><a asp-action="Index" class="text-decoration-none">Quản lý /</a></div>
+				<div class="col-auto p-0 ">Chi tiết liên hệ</div>
+			</div>
+			<div class="row w-100 p-2 ps-1 mt-2 ms-1  ">
+				<div class="col p-0 fw-bold fs-4">Chi tiết liên hệ</div>
+				<div class="col-auto ms-auto px-2 pe-4 mt-3 fs-6 py-1 rounded-2 text-center">
+					@if (Model.status == AppFeedBackStatus.SUCCESS)
+					{
+						<span class="text-success"><i class="fas fa-check me-2"></i>Đã phản hồi</span>
+					}
+					@if (Model.status == AppFeedBackStatus.ERROR)
+					{
+						<span class="text-danger"><i class="fas fa-exclamation-circle me-2"></i>Chưa phản hồi</span>
+					}
+				</div>
+			</div>
+			<hr class="m-0">
+			<div class="row ms-1 w-100">
+				<div class="col p-0 ps-2 mb-2 me-5 mt-3">
+					<div class="row p-2 fs-5 text-uppercase">Thông tin khách hàng</div>
+					<div class="row p-2"><div class="col-auto p-0 fw-bold pe-2 fs-6">Khách hàng: </div><div class="col-auto p-0">@Model.FullName</div></div>
+					<div class="row p-2"><div class="col-auto p-0 fw-bold pe-2 fs-6">Email: </div><div class="col-auto p-0">@Model.Email</div></div>
+
+					<div class="row p-2"><div class="col-auto p-0 fw-bold pe-2 fs-6">Nội dung hỗ trợ: </div><div class="col-auto p-0">@Model.Content</div></div>
+					@foreach (var itemFb in Role)
+					{
+						if (itemFb.IdPermission == AuthConst.AppContacts.FEEDBACK)
+						{
+							@if (Model.status == AppFeedBackStatus.ERROR)
+							{
+								<p class=" row d-inline-flex gap-1 mt-4 mx-0">
+									<a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+										Gửi mail phản hồi ngay
+									</a>
+								</p>
+								<div class="row collapse mx-0" id="collapseExample">
+									<div class="card card-body border border-none">
+										<div calss="col p-0">
+											<form asp-action="SendMail" asp-route-id="@Model.IdContact" method="post">
+												<div class="row  w-75  mx-auto">
+													<div class="col p-0">
+														<div class="row">
+															<div class="col-2 p-0 text-end pe-2 fw-bold">Tiêu đề: </div>
+															<div class="col p-0">
+																<input type="text" name="subject" class="form-control" />
+															</div>
+														</div>
+														<div class="row mt-3">
+															<div class="col-2 text-end pe-2 p-0 fw-bold">Nội dung: </div>
+															<div class="col p-0">
+																<textarea id="contentFeedback" name="content"></textarea>
+															</div>
+														</div>
+														<div class="row mt-3">
+															<div class="col-auto p-0 ms-auto"><button class="btn btn-primary px-3" type="submit">Gửi phản hồi</button></div>
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							}
+						}
+					}
+					@if (Model.status == AppFeedBackStatus.SUCCESS)
+					{
+						@if (feedback != null)
+						{
+							<hr class="m-0 mt-3">
+							<div class="row p-2 fs-5 text-uppercase mt-4">Thông tin phản hồi</div>
+							<div class="row p-2">
+								<div class="col-auto p-0 fw-bold pe-2 fs-6">Subject: </div>
+								<div class="col-auto p-0">@feedback.Title</div>
+							</div>
+							<div class="row p-2">
+								<div class="col-auto p-0 fw-bold pe-2 fs-6 mb-2">Nội dung mail: </div>
+								<div class="col-auto p-0">
+									@Html.Raw(feedback.Description)
+								</div>
+							</div>
+						}
+					}
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

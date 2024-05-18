@@ -1,0 +1,26 @@
+﻿@model IEnumerable<RentalSystem.Models.AppTypeOfService>
+
+<div class="container-fluid text-light p-0  m-0 position-fixed" style="background-color: rgb(150,150,150); max-height: 55px;z-index: 10">
+    <div class="row w-100">
+        <div class="col-auto p-2 py-3 ms-5 fw-bold me-3 pointer menuCategory trangchu" style="background-color: rgb(255,255,255);">
+            <a asp-action="Index" asp-controller="Home" asp-area="" class="text-decoration-none text-black">Trang chủ </a>
+        </div>
+        <div class="col p-0 ">
+            <div class="row ">
+                @foreach (var item in Model)
+                {
+                    <div class="col-auto p-2  py-3  fw-bold pointer menuCategory" style="border-right: 1px solid rgb(255,255,255)">
+                        <a asp-action="Index" asp-controller="Home" asp-area="" asp-route-TypeOfServices="@item.Name" class="text-light text-decoration-none">@item.Name</a>
+                    </div>
+                }
+                <div class="col-auto p-2 py-3 fw-bold pointer menuCategory d-none d-md-block" style="border-right: 1px solid rgb(255,255,255)">
+                    <a asp-action="Index" asp-controller="Category" asp-area="" class="text-decoration-none text-light">
+                        Bảng giá dịch vụ
+                    </a>
+                </div>
+                <div class="col-auto p-2 py-3 fw-bold pointer menuCategory d-none d-md-block" > Tin tức</div>
+              
+           </div>
+       </div>
+    </div>
+</div>

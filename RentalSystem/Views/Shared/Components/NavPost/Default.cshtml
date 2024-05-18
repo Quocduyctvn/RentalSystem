@@ -1,0 +1,10 @@
+﻿@model IEnumerable<RentalSystem.Models.AppTypeOfService>
+
+@foreach (var item in Model)
+{
+	<a asp-action="Index" asp-controller="Home" asp-route-TypeOfServices="@item.Name" class=" text-decoration-none text-black">
+		<div class="row">
+			<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Cho thuê @item.Name</div>
+		</div>
+	</a>
+}

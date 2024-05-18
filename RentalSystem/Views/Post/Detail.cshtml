@@ -1,0 +1,131 @@
+﻿@model RentalSystem.Models.AppPosts
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="~/css/userstyle.css" rel="stylesheet" />
+</head>
+
+<body>
+	<div class="container  pe-0">
+		<div class="row w-75 ms-0 py-2 bg-light rounded-1">
+			<div class="col-auto p-0 pe-2 fw-bold  "><a asp-action="Index" asp-controller="Home" class="text-decoration-none">Trang chủ /</a></div>
+			<div class="col-auto p-0 "><a href="#" class="text-decoration-none">Cho thuê @Model.appTypeOfService.Name /</a></div>
+			<div class="col-auto p-0  text-lowercase ps-2">@Model.Title</div>
+		</div>
+		<main id="main">
+			<div class="d-flex">
+				<div class="left-col">
+					<div class="slide-iamge-content">
+						<div id="carouselImageContainer" class="carousel slide">
+							<div class="carousel-inner" style="height: 400px; background: grey;">
+								<div class="carousel-item active">
+									<img src="@Model.Path" class="d-block" style="object-fit: contain;"
+										 alt="Ảnh mô tả phòng" width="100%">
+								</div>
+								@foreach (var item in Model.appImgPosts)
+								{
+									<div class="carousel-item active">
+										<img src="@item.Path" class="d-block" style="object-fit: contain;"
+											 alt="Ảnh mô tả phòng" width="100%">
+									</div>
+								}
+
+							</div>
+							<button class="carousel-control-prev" type="button" data-bs-target="#carouselImageContainer"
+									data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button" data-bs-target="#carouselImageContainer"
+									data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					</div>
+					<header class="page-header">
+						<div class=" text-center fs-4" style="margin-top: 10px; color: @Model.appCategory.TitleColor">
+							@Model.Title
+						</div>
+						<div class="post-address mt-3 ms-1">
+							<i class="fas fa-map-marked-alt text-primary me-2"></i>  Địa chỉ: @Model.appAddress.FullAdress
+						</div>
+						<div class="post-attributes mt-2 ms-1">
+							<div class="item price fw-bold ">
+								<i class="fas fa-hand-holding-usd text-primary "></i>
+								<span class="fs-5"> @string.Format("{0:000,0}", Model.RtalPrice) / @Model.ToTforRtalPrice</span>
+							</div>
+							<div class="item acreage">
+								<i class="fas fa-vector-square text-primary"></i><span> 25m<sup>2</sup></span>
+							</div>
+							<div class="item published">
+								<i class="fas fa-stopwatch text-primary"></i>
+								<span> 33 phút trước</span>
+							</div>
+						</div>
+					</header>
+					<section class="section post-main-content">
+						<div class="section-header">
+							<h2 class="section-title" style="color: #959595">Thông tin mô tả</h2>
+						</div>
+						<div class="section-content">
+							@Html.Raw(Model.Desc)
+						</div>
+					</section>
+
+				</div>
+				<div class="col-xxl-4 ms-auto ps-3">
+					<div class="row ms-2 px-3 rounded-3 py-2  pt-5 pb-3 mt-0" style="background-color:#e0a216">
+						<div class="text-center fs-5 fw-bold"><span>@Model.appUsers.Name</span></div>
+						<div style="min-height: 16px; margin-bottom: 10px;">
+							<div class=" online text-center">
+								<span>
+									<i class="fas fa-circle text-success " style="font-size: 10px"></i>
+									<span>
+										Đang hoạt động
+									</span>
+								</span>
+							</div>
+						</div>
+						@if (!String.IsNullOrEmpty(ViewBag.Requested) || ViewBag.Requested == "true")
+						{
+							<a  class="btn btn-success fs-6">
+								Đã gửi yêu cầu nhận @Model.appTypeOfService.Name
+							</a>
+						}
+						else
+						{
+							<a asp-action="Request" asp-controller="UserRequest" asp-area="User" asp-route-id="@Model.IdPost" class="btn btn-success fs-6">
+								Yêu cầu nhận @Model.appTypeOfService.Name
+							</a>
+						}
+
+						<a class="btn btn-light mt-2 text-center py-2" target="_blank"
+						   href="https://zalo.me/@Model.appUsers.PhoneNumberZL">Nhắn qua Zalo</a>
+					</div>
+
+					@await Component.InvokeAsync("NewPost")
+					<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+						<div class="col ">
+							<div class="row fw-bold fs-5 mb-2">Bài viết mới</div>
+							<div class="row">
+								<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+							</div>
+							<div class="row">
+								<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+							</div>
+							<div class="row">
+								<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<RentalSystem.Models.AppPosts>
+
+
+<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+	<div class="col ">
+		<div class="row fw-bold fs-5 mb-2">Tin mới đăng</div>
+		@foreach (var item in Model)
+		{
+			<div class="row my-1">
+				<div class="col-auto p-0">
+					<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost">
+						<img src="@item.Path" width="70px" height="70px" class="rounded-2" />
+					</a>
+				</div>
+				<div class="col ps-4">
+					<div class="row text-uppercase fw-bold" style="font-size: 12px; ">
+						<a asp-action="Detail" asp-controller="Post" asp-route-id="@item.IdPost" style="color: @item.appCategory.TitleColor" class="text-decoration-none p-0">
+							@item.Title
+						</a>
+					</div>
+					<div class="row">
+						<div class="col-auto text-success p-0">@string.Format("{0:000,0}", item.RtalPrice) / @item.ToTforRtalPrice</div>
+						<div class="col-auto ms-auto text-secondary pt-1" style="font-size: 12px;">
+							@{
+							
+								TimeSpan timeElapsed = DateTime.Now - item.CreatedDate;
+								int totalTime;
+								if (timeElapsed.TotalHours < 24)
+								{
+									if (timeElapsed.TotalHours < 1)
+									{
+										totalTime = (int)timeElapsed.TotalMinutes;
+										<span>@totalTime Phút trước</span>
+									}
+									else
+									{
+										totalTime = (int)timeElapsed.TotalHours;
+										<span>@totalTime Giờ trước</span>
+									}
+								}
+								else
+								{
+									int ngay = (int)timeElapsed.TotalDays;
+									<span>@ngay Ngày trước</span>
+								}
+
+							}
+						</div>
+					</div>
+				</div>
+			</div>
+			<hr class="my-2">
+		}
+
+	</div>
+</div>

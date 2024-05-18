@@ -1,0 +1,13 @@
+﻿@model IEnumerable<RentalSystem.Models.AppPolicy>
+
+<div class="col-auto p-0 mx-5">
+	<div class="row mb-2 fw-bold">Hỗ trợ khách hàng</div>
+	@foreach(var item in Model)
+	{
+		<div class="row hover-red">
+			<a asp-action="Index" asp-controller="Policy" asp-route-id="@item.IdPolicy" class="text-black text-decoration-none p-0">
+				<span class=" hover-red">@item.Name</span>
+			</a>
+		</div>
+	}
+</div>
