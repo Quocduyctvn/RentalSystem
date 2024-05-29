@@ -1,0 +1,88 @@
+﻿@model RentalSystem.Areas.Admin.ViewModels.AddOrUpdateNews
+
+<div class="row px-4">
+	<div class="col-md-6">
+		<div class="form-group">
+			<label class="control-label required mb-1 fw-bold">Loại bài viết</label>
+			<select asp-for="IdCateNews" class="form-select" aria-label="Default select example">
+				@if (Model?.Title == null)
+				{
+					<option value="-1">-Chọn danh mục bài viết--</option>
+					@foreach (var item in ViewBag.ListCateNews)
+					{
+						<option value="@item.IdCateNews">@item.Name</option>
+					}
+				}
+				@if (Model?.Title != null)
+				{
+					@foreach (var item in ViewBag.ListCateNews)
+					{
+						if (item.IdCateNews == Model.IdCateNews)
+						{
+							<option value="@item.IdCateNews" selected>@item.Name</option>
+						}
+						else
+						{
+							<option value="@item.IdCateNews">@item.Name</option>
+						}
+					}
+				}
+			</select>
+		</div>
+		<div class="form-group">
+			<label class="control-label required mb-1 mt-2 fw-bold">Tiêu đề</label>
+			<input asp-for="Title" class="form-control" />
+			<span asp-validation-for="Title" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label class="control-label mb-1 mt-2 fw-bold">Tóm tắt</label>
+			<textarea asp-for="Summary" class="form-control" rows="3"></textarea>
+			<span asp-validation-for="Summary" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="col-md-6 ">
+		<div class="form-group group-container">
+			<div class="col-11 p-0 ms-4">
+				<span class="row ps-1 fw-bold" style="left: -10px;">Tải ảnh bìa</span>
+				<div class="row w-100 position-relative">
+					<div class=" p-0 mt-2 mx-3" style="opacity: 1">
+						<div class="row text-center justify-content-center align-items-center" style="border: dotted 2px rgb(139, 139, 139); height: 220px">
+							<i class="fas fa-cloud-upload-alt" style="font-size: 90px; color: rgb(10, 176, 202)"></i>
+						</div>
+					</div>
+					<div class="col p-0 mt-2 mx-3 position-absolute" style="opacity: 0">
+						<input asp-for="FormFileImg" class="form-control border border-secondary" type="file" style="height: 220px" />
+					</div>
+				</div>
+				<span class="fs-6 text-success position-relative" style="left: -10px;" id="lableImgPost"></span>
+			</div>
+			<span asp-validation-for="FormFileImg" class="text-danger"></span>
+		</div>
+		@if (Model?.CoverImg != null)
+		{
+			<div class="col-md-4 ">
+				<div class="form-group group-container">
+					<div class="col-11 p-0 ms-4">
+						<span class="row ps-1 fw-bold" style="left: -10px;">Ảnh bìa hiện tại</span>
+						<div class="row w-100 position-relative">
+							<div class=" p-0 mt-2 mx-3" style="opacity: 1">
+								<div class="row text-center justify-content-center align-items-center" style="border: dotted 2px rgb(139, 139, 139); height: 120px">
+									<img src="@Model.CoverImg" />
+								</div>
+							</div>
+						</div>
+						<span class="fs-6 text-success position-relative" style="left: -10px;" id="lableImgPost"></span>
+					</div>
+					<span asp-validation-for="FormFileImg" class="text-danger"></span>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+<div class="row px-4">
+	<div class="form-group">
+		<label asp-for="Content" class="control-label mt-2 fw-bold">Nội dung bài viết</label>
+		<textarea asp-for="Content" id="ImgNews" class="form-control"> </textarea>
+		<span asp-validation-for="Content" class="text-danger"></span>
+	</div>
+</div>

@@ -1,0 +1,232 @@
+﻿@using RentalSystem.WebConfig.Constant
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<RentalSystem.Models.AppCategoryNews>
+@{
+	var Role = ViewBag.RolePer as List<AppRolePermission>;
+	int counter = 1;
+}
+
+<div class="container-fluid p-0">
+	<div class="row w-100 fs-4 px-4 pt-2" style="font-weight: 500">Danh sách thể loại tin tức</div>
+	<hr />
+
+	<div class="row w-100 ">
+		<div class="col p-0 ms-4 ps-3">
+			@foreach (var ViewList in Role)
+			{
+				if (ViewList.IdPermission == AuthConst.AppCateNews.VIEW_LIST)
+				{
+
+					@foreach (var CREATE in Role)
+					{
+						if (CREATE.IdPermission == AuthConst.AppCateNews.CREATE)
+						{
+							<form asp-action="Index">
+								<div class="row w-100">
+
+									<button class="btn btn-success w-auto rounded-1" data-bs-toggle="modal" data-bs-target="#addCateNews" onclick="openPopup(event)">
+										<i class="fas fa-plus-circle"></i> Thêm thể loại tin tức
+									</button>
+									<div class="col-3 p-0 ms-3">
+										<input type="text" name="keyword" placeholder="Tìm thể loại tin tức..." class="form-control" style="border-radius: 7px 0 0 7px" />
+									</div>
+									<button type="submit" class="col-auto p-0 border border-none px-2" style="border-radius: 0 7px 7px 0">Tìm Kiếm</button>
+								</div>
+							</form>
+						}
+					}
+					@foreach (var DELETE_LIST in Role)
+					{
+						if (DELETE_LIST.IdPermission == AuthConst.AppCateNews.DELETE_LIST)
+						{
+							<div class="row w-100 mt-3">
+								<div class="col-auto p-0">
+									<div class="btn btn-light">
+										<div class="custom-control custom-switch">
+											<input id="chkAllowBulkDel" type="checkbox" class="custom-control-input">
+											<label for="chkAllowBulkDel" class="custom-control-label form-check-label hover:pointer">Cho phép xóa nhiều</label>
+										</div>
+									</div>
+									<button id="btnBulkDel" class="d-none btn btn-outline-danger"
+											data-keyword="CateNews"
+											data-url="@Url.Action("DeleteList", "AdminCateNews")">
+										Xóa hàng loạt (<span id="delCount">0</span> danh mục)
+									</button>
+
+								</div>
+							</div>
+						}
+					}
+					<div class="row w-100 mt-3">
+						<div class="table-responsive px-0">
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th class="js-col-checkbox d-none position-relative" style="width: 45px;">
+											<input id="chkAll" type="checkbox" class="ms-2" style="transform: scale(1.5)" />
+											<label for="chkAll" class="position-absolute w-100 h-100 top-left hover:pointer"></label>
+										</th>
+										<th style="width: 35px;">#</th>
+										<th style="width: 330px;">Tên thể loại tin tức</th>
+										<th>Mô tả</th>
+										<th style="width: 200px;" class="text-center">Tùy chọn</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in Model)
+									{
+										<tr>
+											<td class="fit js-col-checkbox d-none position-relative" style="width: 45px;">
+												<input id="chk@(item.IdCateNews)" type="checkbox" data-id="@item.IdCateNews" class="ms-2" style="transform: scale(1.5)" />
+												<label for="chk@(item.IdCateNews)" class="position-absolute w-100 h-100 top-left hover:pointer"></label>
+											</td>
+											<td>@counter</td>
+											<td class="fw-bold">@item.Name</td>
+											<td>@item.Desc</td>
+											<td class="justify-content-center text-center">
+												@foreach (var UPDATE in Role)
+												{
+													if (UPDATE.IdPermission == AuthConst.AppCateNews.UPDATE)
+													{
+														<a asp-action="" asp-controller="" class="text-primary px-2 btn btn-outline-light  border border-sacondary" data-bs-toggle="modal" data-bs-target="#updateCateNews" onclick="UpdateCateNews('@item.Name', '@item.Desc', @item.IdCateNews)"><i class="far fa-edit fs-5 "></i></a>
+													}
+												}
+												@foreach (var DELETE in Role)
+												{
+													if (DELETE.IdPermission == AuthConst.AppCateNews.DELETE)
+													{
+														<a class="text-danger px-2 btn btn-outline-light border border-sacondary" data-bs-toggle="modal" data-bs-target="#deleteCateNews" onclick="DeleteCateNews('@item.Name', @item.IdCateNews)">
+															<i class="fas fa-trash-alt fs-5"></i>
+														</a>
+													}
+												}
+											</td>
+										</tr>
+										counter++;
+									}
+								</tbody>
+							</table>
+							@if (TempData["searched"] != null && !string.IsNullOrEmpty(TempData["searched"].ToString()))
+							{
+								<div class="text-center">
+									<span class="text-danger"><i>Kết quả tìm kiếm [@Model.Count()] item </i></span> <a asp-action="Index" class="text-decoration-none text-center" style="display: inline-block">Đặt lại</a>
+								</div>
+							}
+							<div class="pagination">
+								@for (int i = 1; i <= Model.PageCount; i++)
+								{
+									<div class="page-number @(Model.PageNumber == i ? "active" : "") px-2 btn btn-primary me-1">
+										<a href="@Url.Action("Index", new { page = i })" class="text-decoration-none text-light">@i</a>
+									</div>
+								}
+							</div>
+							<div style="font-size: 12px" class="mt-2"><i>Danh sách này có tổng cộng @ViewBag.ListCateNews.Count bản ghi</i></div>
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+
+</div>
+@* ================================Model==================================== *@
+<div class="modal fade" id="addCateNews" tabindex="-1" aria-labelledby="addCateNews" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form asp-action="AddCateNews" asp-controller="AdminCateNews" method="POST">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="addTypeOfServicesLabel">Thêm thể loại tin tức</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<input type="text" name="Name" class="form-control" placeholder="Nhập tên thể loại tin tức" />
+				</div>
+				<div class="modal-body">
+					<textarea name="Desc" rows="7" class="form-control" placeholder="Mô tả ngắn thể loại tin"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+					<button type="submit" class="btn btn-primary">Thêm</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="updateCateNews" tabindex="-1" aria-labelledby="updateCateNews" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form asp-action="Update" method="post">
+				<input type="hidden" id="IdCateNews" name="id" />
+				<div class="modal-header">
+					<h1 class="modal-title fs-5 p-2" id="updateCateNewsLabel" style="font-weight:bold">Cập nhật thể loại tin tức:</h1>
+					<button type="button" class="btn-close ml-5" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body p-3">
+					<div class="row">
+						<div class="col w-100 ">
+							<input type="text" class="form-control" name="name" value="" id="nameCateNews" />
+						</div>
+					</div>
+					<div class="row mt-2">
+						<div class="col w-100 ">
+							<textarea name="desc" rows="7" class="form-control" id="descCateNews" placeholder="Mô tả ngắn thể loại tin"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+					<button type="submit" class="btn btn-primary">Cập nhật</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="deleteCateNews" tabindex="-1" aria-labelledby="deleteCateNews" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form asp-action="Delete" method="post">
+				<input type="hidden" id="inputDelete" name="id" />
+				<div class="modal-header">
+					<div class="row">
+						<div class="col w-100 ">
+							<h1 class="modal-title fs-5 p-2" id="updateDM_DVLabel">Bạn chắc chắn Xóa thể loại tin tức: </h1>
+						</div>
+					</div>
+				</div>
+				<div class="modal-header justify-content-center">
+					<div class="row text-center">
+						<div class="col w-100 ">
+							<div id="tenDm" class="text-danger"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+					<button type="submit" class="btn btn-primary">Xóa</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+@* Xử lí js cho Update & delete CateNews *@
+<script>
+	function UpdateCateNews(name, desc, id) {
+		document.getElementById('nameCateNews').value = name;
+		document.getElementById('descCateNews').value = desc;
+		document.getElementById('IdCateNews').value = id;
+	}
+	function DeleteCateNews(name, id) {
+		document.getElementById('inputDelete').value = id;
+		document.getElementById('tenDm').textContent = `[${name}]`;
+	}
+</script>
+<script>
+	function openPopup(event) {
+		// Ngăn chặn hành vi mặc định của nút
+		event.preventDefault();
+
+		// Mở popup bằng cách chọn modal và gọi phương thức show()
+		var myModal = new bootstrap.Modal(document.getElementById('addTypeOfServices'));
+		myModal.show();
+	}
+</script>

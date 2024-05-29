@@ -1,4 +1,5 @@
-﻿@model RentalSystem.Models.AppPosts
+﻿@using RentalSystem.WebConfig.Constant
+@model RentalSystem.Models.AppPosts
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,6 +48,7 @@
 							</button>
 						</div>
 					</div>
+
 					<header class="page-header">
 						<div class=" text-center fs-4" style="margin-top: 10px; color: @Model.appCategory.TitleColor">
 							@Model.Title
@@ -60,11 +62,34 @@
 								<span class="fs-5"> @string.Format("{0:000,0}", Model.RtalPrice) / @Model.ToTforRtalPrice</span>
 							</div>
 							<div class="item acreage">
-								<i class="fas fa-vector-square text-primary"></i><span> 25m<sup>2</sup></span>
+								<i class="fas fa-vector-square text-primary"></i><span>@Model.Area m<sup>2</sup></span>
 							</div>
 							<div class="item published">
 								<i class="fas fa-stopwatch text-primary"></i>
-								<span> 33 phút trước</span>
+								@{
+									int totalTime = ((int)(DateTime.Now - Model.CreatedDate).TotalHours);
+
+									if (totalTime < 24)
+									{
+										<span>Hôm nay</span>
+									}
+									if (totalTime > 24)
+									{
+										int ngay = totalTime / 24;
+										<span>@ngay Ngày trước</span>
+									}
+								}
+							</div>
+							<div class="item text-end">
+								<span class="text-success me-2">Trạng thái: </span>
+								@if(Model.PostStatus == AppPostStatus.APPROVED)
+								{
+									<span>Cần thuê gấp</span>	
+								}
+								@if (Model.PostStatus == AppPostStatus.TRADING)
+								{
+									<span>Đang giao dịch</span>
+								}
 							</div>
 						</div>
 					</header>
@@ -109,20 +134,9 @@
 					</div>
 
 					@await Component.InvokeAsync("NewPost")
-					<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
-						<div class="col ">
-							<div class="row fw-bold fs-5 mb-2">Bài viết mới</div>
-							<div class="row">
-								<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-							</div>
-							<div class="row">
-								<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-							</div>
-							<div class="row">
-								<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-							</div>
-						</div>
-					</div>
+
+					@* Blog new  *@
+					@await Component.InvokeAsync("NavNews")
 				</div>
 			</div>
 		</main>

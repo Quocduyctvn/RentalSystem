@@ -393,7 +393,118 @@ namespace RentalSystem.DataSeeders
 			);
 			#endregion
 
-		}
+			#region Cấu hình bảng AppCateNews 
+			groupName = "Quản lý loại tin tức";
+			builder.HasData(
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppCateNews.VIEW_LIST,
+					Code = "VIEW_LIST",
+					Table = "AppCateNews",
+					GroupName = groupName,
+					Desc = "Xem danh sách",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppCateNews.CREATE,
+					Code = "CREATE",
+					Table = "AppCateNews",
+					GroupName = groupName,
+					Desc = "Thêm mới",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppCateNews.UPDATE,
+					Code = "UPDATE",
+					Table = "AppCateNews",
+					GroupName = groupName,
+					Desc = "Cập nhật",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppCateNews.DELETE,
+					Code = "DELETE",
+					Table = "AppCateNews",
+					GroupName = groupName,
+					Desc = "Xóa danh mục",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppCateNews.DELETE_LIST,
+					Code = "DELETE_LIST",
+					Table = "AppCateNews",
+					GroupName = groupName,
+					Desc = "Xóa nhiều tin",
+					CreatedDate = now
+				}
+			);
+			#endregion
 
+
+			#region Cấu hình bảng AppNews 
+			groupName = "Quản lý tin tức";
+			builder.HasData(
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppNews.VIEW_LIST,
+					Code = "VIEW_LIST",
+					Table = "AppNews",
+					GroupName = groupName,
+					Desc = "Xem danh sách",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppNews.CREATE,
+					Code = "CREATE",
+					Table = "AppNews",
+					GroupName = groupName,
+					Desc = "Thêm mới",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppNews.UPDATE,
+					Code = "UPDATE",
+					Table = "AppNews",
+					GroupName = groupName,
+					Desc = "Cập nhật",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppNews.DELETE,
+					Code = "DELETE",
+					Table = "AppNews",
+					GroupName = groupName,
+					Desc = "Xóa bài viết",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppNews.DELETE_LIST,
+					Code = "DELETE_LIST",
+					Table = "AppNews",
+					GroupName = groupName,
+					Desc = "Xóa nhiều tin",
+					CreatedDate = now
+				},
+				new AppPermissions
+				{
+					IdPermission = AuthConst.AppNews.VIEW_DETAIL,
+					Code = "VIEW_DETAIL",
+					Table = "AppNews",
+					GroupName = groupName,
+					Desc = "Xem chi tiết",
+					CreatedDate = now
+				}
+			);
+			#endregion
+		}
+		
 	}
 }

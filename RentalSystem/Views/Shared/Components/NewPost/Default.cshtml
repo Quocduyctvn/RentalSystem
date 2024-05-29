@@ -22,28 +22,17 @@
 						<div class="col-auto text-success p-0">@string.Format("{0:000,0}", item.RtalPrice) / @item.ToTforRtalPrice</div>
 						<div class="col-auto ms-auto text-secondary pt-1" style="font-size: 12px;">
 							@{
-							
-								TimeSpan timeElapsed = DateTime.Now - item.CreatedDate;
-								int totalTime;
-								if (timeElapsed.TotalHours < 24)
+								int totalTime = ((int)(DateTime.Now - item.CreatedDate).TotalHours);
+
+								if (totalTime < 24)
 								{
-									if (timeElapsed.TotalHours < 1)
-									{
-										totalTime = (int)timeElapsed.TotalMinutes;
-										<span>@totalTime Phút trước</span>
-									}
-									else
-									{
-										totalTime = (int)timeElapsed.TotalHours;
-										<span>@totalTime Giờ trước</span>
-									}
+									<span>Hôm nay</span>
 								}
-								else
+								if (totalTime > 24)
 								{
-									int ngay = (int)timeElapsed.TotalDays;
+									int ngay = totalTime / 24;
 									<span>@ngay Ngày trước</span>
 								}
-
 							}
 						</div>
 					</div>

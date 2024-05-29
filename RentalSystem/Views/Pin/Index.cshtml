@@ -22,35 +22,10 @@
 
 
 @* thanh tìm kiếm  *@
-<div class="container">
-	<div class="col p-0 mx-auto">
-		<div class="row justify-content-center rounded-3 mt-2 pb-2" style="background-color: #febb02;">
-			<div class="col-auto p-1 mt-3" data-bs-toggle="modal" data-bs-target="#modelCategory">
-				<button class="btn border border-none bg-light px-4"><i class="fas fa-building"></i> <span class="selectItemCate">Phòng trọ, Nhà trọ</span> <i class="ms-4 fas fa-backspace"></i></button>
-			</div>
-			<div class="col-auto p-1 mt-3" data-bs-toggle="modal" data-bs-target="#modelPrice">
-				<button class="btn border border-none bg-light px-4"><span class=""> -- Chọn Giá -- </span></button>
-			</div>
-			<div class="col-auto  p-1 mt-3 me-1" data-bs-toggle="modal" data-bs-target="#modelArea">
-				<button class="btn border border-none bg-light px-4"><span class=""> -- Chọn Diện tích -- </span></button>
-			</div>
-			<div class="col-4 p-1 mt-2 mx-2">
-				<form asp-action="Index" asp-controller="Home">
-					<div class="row my-2">
-						<div class="col p-0">
-							<input type="text" name="keyword" placeholder="Tìm kiếm..." class="form-control" style="border-radius: 5px 0 0 5px;" />
-						</div>
-						<div class="col-auto p-0 me-0">
-							<button class="btn btn-primary" style="border-radius:0 5px 5px 0;"><i class="fas fa-search"></i></button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-<!-- end bộ lọc  -->
 
+@await Component.InvokeAsync("Filter")
+
+<!-- end bộ lọc  -->
 
 <!-- Product  -->
 <div class="container mt-3">
@@ -539,21 +514,9 @@
 			@await Component.InvokeAsync("NewPost")
 
 
+
 			@* Blog new  *@
-			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
-				<div class="col ">
-					<div class="row fw-bold fs-5 mb-2">Bài viết mới</div>
-					<div class="row">
-						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-					</div>
-					<div class="row">
-						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-					</div>
-					<div class="row">
-						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-					</div>
-				</div>
-			</div>
+			@await Component.InvokeAsync("NavNews")
 		</div>
 
 	</div>

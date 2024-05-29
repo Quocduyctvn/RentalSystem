@@ -2,24 +2,23 @@
 	var user = TempData["User"] as AppUsers;
 }
 
-<div class="row px-4 mt-3 ">
+<div class="row px-4 mt-3 ps-5">
 	<div class="col-auto ms-3">
 		<img src="@user.Avatar" width="70px" height="70px" class="rounded-circle" />
 	</div>
-	<div class="col-auto p-0 ps-2 mt-3">
+	<div class="col-auto p-0 ps-3 mt-3">
 		<div class="row fw-bold ">@user.Name </div>
 		<div class="row">@user.PhoneNumberZL</div>
 	</div>
 </div>
-<div class="row mx-4 mt-3">
-	<span class="col p-0 fw-bold">Mã thành viên:</span><span class="col p-0"> @user.Code</span>
+<div class="row mx-0 mt-3">
+	<span class="col p-0 pe-1 fw-bold">Mã thành viên:</span><span class="col p-0 ms-auto"> @user.Code</span>
 </div>
-<div class="row mx-4">
-	<span class="col-auto p-0 fw-bold pe-1">TK chính:</span>
-	<span class="col p-0 fs-6">
-		
+<div class="row  mx-0 mt-1">
+	<span class="col p-0 pe-1 fw-bold">TK chính:</span>
+	<span class="col p-0 ms-auto">
 		@String.Format("{0:#,0.#}", user.AccountBalance)
-		<span class="ms-1">VNĐ</span>
+		VNĐ
 		
 	</span>
 

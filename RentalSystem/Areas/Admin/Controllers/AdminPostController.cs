@@ -16,7 +16,6 @@ namespace RentalSystem.Areas.Admin.Controllers
 		}
 
 
-		[Route("quan-ly-bai-dang")]
 		public IActionResult Index(string? keyword, int? selectedCategoryId, AppPostStatus? status, int? page)
 		{
 
@@ -60,13 +59,23 @@ namespace RentalSystem.Areas.Admin.Controllers
 			if (selectedCategoryId != null && selectedCategoryId > 0)
 			{
 				post = post.Where(i => i.IdCategory == selectedCategoryId).ToList();
+
 				Cate = _BookingDbContext.AppCategory.Find(selectedCategoryId);
 				ViewBag.searchName = Cate.Name;
 				TempData["searched"] = "searched";
 			}
+
+			// Lọc trạng thái 
 			if (status != null)
 			{
-				post = post.Where(i => i.PostStatus == status).ToList();
+				if(status == AppPostStatus.APPROVED)
+				{
+					post = post.Where(i => i.PostStatus == status || i.PostStatus == AppPostStatus.TRADING).ToList();
+				}
+				else
+				{
+					post = post.Where(i => i.PostStatus == status).ToList();
+				}
 
 				Cate = _BookingDbContext.AppCategory.Find(selectedCategoryId);
 				List<AppPostStatus> listStatus = Enum.GetValues(typeof(AppPostStatus))
@@ -97,6 +106,10 @@ namespace RentalSystem.Areas.Admin.Controllers
 						if (item == AppPostStatus.UNPAID)
 						{
 							StatusName = "Chưa thanh toán";
+						}
+						if (item == AppPostStatus.TRADING)
+						{
+							StatusName = "Đang giao dịch";
 						}
 					}
 				}

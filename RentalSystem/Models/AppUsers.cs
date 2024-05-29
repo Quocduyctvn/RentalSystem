@@ -42,7 +42,8 @@ namespace RentalSystem.Models
 		public AppRoles appRole { get; set; }
 		public ICollection<AppContactFeedback> appContactFeedback { get; set; }  // 1 admin có thể phản hồi nhiều yêu cầu mail
         public ICollection<AppPolicy> appPolicy { get; set; }  // 1 admin có thể tạo nhiều chính sách 
-		public ICollection<AppRequest> appRequest { get; set; } 
+		public ICollection<AppRequest> appRequest { get; set; }
+		public ICollection<AppNews> appNews { get; set; }
 
 	}
 }

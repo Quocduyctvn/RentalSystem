@@ -16,7 +16,6 @@ namespace RentalSystem.Controllers
 			_httpContextAccessor = httpContextAccessor;
 		}
 
-		[Route("danh-sach-cac-bai-ghim")]
 		public IActionResult Index()
 		{
 			var _pin = GetPostFromCookie();
@@ -32,7 +31,7 @@ namespace RentalSystem.Controllers
 						.Include(i => i.appCategory)
 						.Include(i => i.appImgPosts)
 						.Include(i => i.appUsers)
-						.Where(i => i.PostStatus == AppPostStatus.APPROVED && pinnedPostIds.Contains(i.IdPost))
+						.Where(i => (i.PostStatus == AppPostStatus.APPROVED || i.PostStatus == AppPostStatus.TRADING) && pinnedPostIds.Contains(i.IdPost))
 						.OrderByDescending(i => i.appCategory.Price)
 						.AsQueryable();
 

@@ -65,6 +65,17 @@
                                 <a class="nav-link text-light" asp-action="Index" asp-controller="AdminAccount">Quản lý tài khoản</a>
                             </nav>
                         </div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseNews" aria-expanded="false" aria-controls="collapseNews">
+                            <div class="sb-nav-link-icon"><i class="fas fa-user-shield text-light"></i></div>
+                            Quản lý tin tức
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseNews" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link text-light" asp-action="Index" asp-controller="AdminCateNews">Quản lý thể loại tin </a>
+                                <a class="nav-link text-light" asp-action="Index" asp-controller="AdminNews">Quản lý tin tức</a>
+                            </nav>
+                        </div>
                         <a class="nav-link" asp-action="Index" asp-controller="AdminPolicy" asp-area="Admin">
                             <div class="sb-nav-link-icon text-light"><i class="fas fa-shield-alt"></i></div>
                             Quản lý Chính sách 
@@ -139,6 +150,11 @@
 
         tinymce.init({
             selector: '#DescriptionPost',
+            plugins: '... image ...',
+            toolbar: '... image ...',
+        });
+        tinymce.init({
+            selector: '#ImgNews',
             plugins: '... image ...',
             toolbar: '... image ...',
         });

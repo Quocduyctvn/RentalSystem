@@ -2,8 +2,8 @@
 @using RentalSystem.WebConfig.Constant
 
 
-<div class="col pe-0 bg-light mx-2 mt-5 mb-4 pb-3 rounded-1 ps-4">
-	<div class="row w-100 p-2  mt-5 pt-3 bg-light rounded-1">
+<div class="col pe-0 mt-3 mx-2  mb-4 pb-3 rounded-1 ps-4" style="box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.1)">
+	<div class="row w-100 p-2   pt-3  rounded-1">
 		<div class="col-auto p-0 pe-2 fw-bold"><a asp-action="Index" asp-controller="UserHome" asp-area="User" class="text-decoration-none">Quản lý /</a></div>
 		<div class="col-auto p-0">Quản lý tin đăng</div>
 	</div>
@@ -25,6 +25,7 @@
 						<option selected>Lọc theo trạng thái hiển thị</option>
 						<option value="@AppPostStatus.PENDING">Chờ duyệt</option>
 						<option value="@AppPostStatus.APPROVED">Đang sử dụng</option>
+						<option value="@AppPostStatus.TRADING">Đang giao dịch</option>
 						<option value="@AppPostStatus.UNPAID">Chưa thanh toán</option>
 						<option value="@AppPostStatus.BOOKED">Đã đặt</option>
 						<option value="@AppPostStatus.EXPIRED">Hết hạn</option>
@@ -116,6 +117,10 @@
 							@if (item.PostStatus == RentalSystem.WebConfig.Constant.AppPostStatus.HIDDEN)
 							{
 								<span>Đã ẩn</span>
+							}
+							@if (item.PostStatus == RentalSystem.WebConfig.Constant.AppPostStatus.TRADING)
+							{
+								<span>Đang giao dịch</span>
 							}
 						</td>
 

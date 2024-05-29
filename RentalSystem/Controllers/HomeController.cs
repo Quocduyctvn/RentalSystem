@@ -36,7 +36,7 @@ namespace RentalSystem.Controllers
 						.Include(i => i.appCategory)
 						.Include(i => i.appImgPosts)
 						.Include(i => i.appUsers)
-						.Where(i => i.PostStatus == AppPostStatus.APPROVED && i.IsPublic == true)
+						.Where(i => (i.PostStatus == AppPostStatus.APPROVED || i.PostStatus == AppPostStatus.TRADING) && i.IsPublic == true)
 						.OrderByDescending(i => i.appCategory.Price)
 						.AsQueryable();
 			// lọc top 4
@@ -86,27 +86,27 @@ namespace RentalSystem.Controllers
 			{
 				if (Area == "<20")
 				{
-					post = post.Where(i => i.Area < 20);
+					post = post.Where(i => i.Area <= 20);
 				}
 				if (Area == "20-30")
 				{
-					post = post.Where(i => i.Area < 30 && i.Area > 20);
+					post = post.Where(i => i.Area <= 30 && i.Area >= 20);
 				}
 				if (Area == "30-50")
 				{
-					post = post.Where(i => i.Area < 50 && i.Area > 30);
+					post = post.Where(i => i.Area <= 50 && i.Area >= 30);
 				}
 				if (Area == "50-70")
 				{
-					post = post.Where(i => i.Area < 70 && i.Area > 50);
+					post = post.Where(i => i.Area <= 70 && i.Area >= 50);
 				}
 				if (Area == "70-90")
 				{
-					post = post.Where(i => i.Area < 90 && i.Area > 70);
+					post = post.Where(i => i.Area <= 90 && i.Area >= 70);
 				}
 				if (Area == ">90")
 				{
-					post = post.Where(i => i.Area > 90);
+					post = post.Where(i => i.Area >= 90);
 				}
 				TempData["searched"] = "searched";
 			}
@@ -280,7 +280,7 @@ namespace RentalSystem.Controllers
 													.Include(i => i.appCategory)
 													.Include(i => i.appImgPosts)
 													.Include(i => i.appUsers)
-													.Where(i => (i.Area > 20 && i.Area < 30)
+													.Where(i => (i.Area >= 20 && i.Area <= 30)
 																&& i.IdCategory == cate.IdCategory)
 													.Take(5).ToList();
 					}
@@ -292,8 +292,8 @@ namespace RentalSystem.Controllers
 													.Include(i => i.appCategory)
 													.Include(i => i.appImgPosts)
 													.Include(i => i.appUsers)
-													.Where(i => (i.Area > 30 && i.Area < 50)
-																|| (i.Area < 20)
+													.Where(i => (i.Area >= 30 && i.Area <= 50)
+																|| (i.Area <= 20)
 																&& i.IdCategory == cate.IdCategory)
 													.Take(5).ToList();
 					}
@@ -305,8 +305,8 @@ namespace RentalSystem.Controllers
 													.Include(i => i.appCategory)
 													.Include(i => i.appImgPosts)
 													.Include(i => i.appUsers)
-													.Where(i => (i.Area > 50 && i.Area < 70)
-																|| (i.Area < 30 && i.Area > 20)
+													.Where(i => (i.Area >= 50 && i.Area <= 70)
+																|| (i.Area <= 30 && i.Area >= 20)
 																&& i.IdCategory == cate.IdCategory)
 													.Take(5).ToList();
 					}
@@ -318,8 +318,8 @@ namespace RentalSystem.Controllers
 													.Include(i => i.appCategory)
 													.Include(i => i.appImgPosts)
 													.Include(i => i.appUsers)
-													.Where(i => (i.Area > 70 && i.Area < 90)
-																|| (i.Area < 50 && i.Area > 30)
+													.Where(i => (i.Area >= 70 && i.Area <= 90)
+																|| (i.Area <= 50 && i.Area >= 30)
 																&& i.IdCategory == cate.IdCategory)
 													.Take(5).ToList();
 					}
@@ -331,8 +331,8 @@ namespace RentalSystem.Controllers
 													.Include(i => i.appCategory)
 													.Include(i => i.appImgPosts)
 													.Include(i => i.appUsers)
-													.Where(i => (i.Area > 90)
-																|| (i.Area < 70 && i.Area > 50)
+													.Where(i => (i.Area >= 90)
+																|| (i.Area <= 70 && i.Area >= 50)
 																&& i.IdCategory == cate.IdCategory)
 													.Take(5).ToList();
 					}
@@ -344,7 +344,7 @@ namespace RentalSystem.Controllers
 													.Include(i => i.appCategory)
 													.Include(i => i.appImgPosts)
 													.Include(i => i.appUsers)
-													.Where(i => (i.Area < 90 && i.Area > 70)
+													.Where(i => (i.Area <= 90 && i.Area >= 70)
 																&& i.IdCategory == cate.IdCategory)
 													.Take(5).ToList();
 					}
@@ -367,7 +367,7 @@ namespace RentalSystem.Controllers
 				}
 			}
 
-			// Lấy bài ghim từ Cookies để hiển thị bài Ghim 
+			// Lấy bài ghim từ Cookies để hiển thị bài Ghim
 			var _pin = GetPostFromCookie();
 			TempData["Pin"] = _pin;
 

@@ -1,0 +1,78 @@
+﻿@using RentalSystem.ViewModels
+@model RentalSystem.Models.AppNews
+
+@{
+
+}
+
+
+@await Component.InvokeAsync("Filter")
+
+<div class="container">
+	<div class="col p-0 mx-auto">
+		<div class="row rounded-3 mt-2 pb-2 ">
+			<div class="col-auto p-0 me-1">
+				<a asp-action="Index" asp-controller="Home" class="text-primary text-decoration-none">
+					<span class="fs-6">Trang chủ </span><i class="fas fa-chevron-right"></i>
+				</a>
+			</div>
+			<div class="col-auto p-0 me-1">
+				<a asp-action="Index" asp-controller="News" class="text-primary text-decoration-none">
+					<span class="fs-6">Tin tức </span><i class="fas fa-chevron-right"></i>
+				</a>
+			</div>
+			<div class="col-auto p-0 me-1">@Model.Title</div>
+		</div>
+	</div>
+</div>
+<!-- end bộ lọc  -->
+<!-- News  -->
+<div class="container mt-2">
+	<div class="row">
+		<div class="col-xxl-8 pe-3 rounded-2">
+			<div class="row rounded-1" style="background-color:#ededed; height: auto">
+				<div class="col p-0 px-3">
+					<div class="row">
+						@Html.Raw(Model.Content)
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		@* Thanh lọc bên trái  *@
+		<div class="col-xxl-4 ms-auto ">
+			<div class="row ms-2 px-3 rounded-3 py-2 " style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Xem theo giá</div>
+
+					@await Component.InvokeAsync("NavPrice")
+
+				</div>
+			</div>
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Xem theo diện tích</div>
+					@await Component.InvokeAsync("NavArea")
+
+				</div>
+			</div>
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Danh mục cho thuê</div>
+					@await Component.InvokeAsync("NavPost")
+				</div>
+			</div>
+
+			@* Post new  *@
+			@await Component.InvokeAsync("NewPost")
+
+			@* Blog new  *@
+			@await Component.InvokeAsync("NavNews")
+		</div>
+	</div>
+
+
+</div>
+</div>
+<!-- end Product  -->

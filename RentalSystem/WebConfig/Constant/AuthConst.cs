@@ -26,7 +26,16 @@
             public const int VIEW_DETAIL =  1302;
         }
 
-        public static class AppPosts
+		public static class AppCateNews
+		{
+			public const int VIEW_LIST = 1401;
+			public const int CREATE = 1402;
+			public const int UPDATE = 1403;
+			public const int DELETE = 1404;
+			public const int DELETE_LIST = 1405;
+
+		}
+		public static class AppPosts
         {
             public const int VIEW_LIST =    1501;
             public const int CREATE =       1502;
@@ -67,6 +76,17 @@
 			public const int UPDATE = 1903;
 			public const int DELETE = 1904;
 			public const int DETAIL = 1905;
+		}
+
+		public static class AppNews
+		{
+			public const int VIEW_LIST = 2101;
+			public const int CREATE = 2102;
+			public const int UPDATE = 2103;
+			public const int DELETE = 2104;
+			public const int DELETE_LIST = 2105;
+			public const int VIEW_DETAIL = 2106;
+
 		}
 	}
 }

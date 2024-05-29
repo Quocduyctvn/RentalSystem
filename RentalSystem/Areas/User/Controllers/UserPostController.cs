@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using RentalSystem.Areas.Admin.ViewModels;
 using RentalSystem.Areas.User.ViewModels;
 using RentalSystem.Models;
@@ -40,7 +41,14 @@ namespace RentalSystem.Areas.User.Controllers
 			}
 			if (status != null)
 			{
-				listPost = listPost.Where(i => i.PostStatus == status);
+				if (status == AppPostStatus.APPROVED)
+				{
+					listPost = listPost.Where(i => i.PostStatus == status || i.PostStatus == AppPostStatus.TRADING);
+				}
+				else
+				{
+					listPost = listPost.Where(i => i.PostStatus == status);
+				}
 
 				Cate = _BookingDbContext.AppCategory.Find(selectedCategoryId);
 				List<AppPostStatus> listStatus = Enum.GetValues(typeof(AppPostStatus))
@@ -72,9 +80,13 @@ namespace RentalSystem.Areas.User.Controllers
 						{
 							StatusName = "Ẩn";
 						}
-						if (item == AppPostStatus.UNPAID)
+						if (item == AppPostStatus.UNPAID) 
 						{
 							StatusName = "Chưa thanh toán";
+						}
+						if (item == AppPostStatus.TRADING) 
+						{
+							StatusName = "Đang giao dịch";
 						}
 					}
 				}
@@ -191,10 +203,17 @@ namespace RentalSystem.Areas.User.Controllers
 			}
 
 			var post = new AppPosts();
+			if(id == null)
+			{
+				post.IdAddress = null;
+			}
 			if (id != null)
 			{
 				post = _BookingDbContext.AppPost
 							.Include(i => i.appImgPosts)
+							.Include(i=> i.appAddress)
+							.Include(i=>i.appHistoryPayments)
+							.Include(i=>i.appUsers)
 							.FirstOrDefault(i => i.IdPost == id);
 			}
 			post.Summary = AddOrUpdatePostVM.Summary;
@@ -292,7 +311,7 @@ namespace RentalSystem.Areas.User.Controllers
 			}
 			post.IdCategory = AddOrUpdatePostVM.IdCategory;
 
-			post.IdAddress = null;
+			
 
 			post.IdCategory = Cate.IdCategory;
 
@@ -334,6 +353,21 @@ namespace RentalSystem.Areas.User.Controllers
 					}
 					if (post.PostStatus == AppPostStatus.APPROVED)  // dang sd
 					{
+						if (AddOrUpdatePostVM.Status == AppPostStatus.HIDDEN) 
+						{
+							post.PostStatus = AppPostStatus.HIDDEN;
+						}
+						if (AddOrUpdatePostVM.Status == AppPostStatus.BOOKED)
+						{
+							post.PostStatus = AppPostStatus.BOOKED;
+						}
+						if (AddOrUpdatePostVM.Status == AppPostStatus.TRADING)
+						{
+							post.PostStatus = AppPostStatus.TRADING;
+						}
+					}
+					if (post.PostStatus == AppPostStatus.TRADING)  // dang giao dich
+					{
 						if (AddOrUpdatePostVM.Status == AppPostStatus.HIDDEN)
 						{
 							post.PostStatus = AppPostStatus.HIDDEN;
@@ -341,6 +375,10 @@ namespace RentalSystem.Areas.User.Controllers
 						if (AddOrUpdatePostVM.Status == AppPostStatus.BOOKED)
 						{
 							post.PostStatus = AppPostStatus.BOOKED;
+						}
+						if (AddOrUpdatePostVM.Status == AppPostStatus.APPROVED)
+						{
+							post.PostStatus = AppPostStatus.APPROVED;
 						}
 					}
 					if (post.PostStatus == AppPostStatus.PENDING)
@@ -454,7 +492,15 @@ namespace RentalSystem.Areas.User.Controllers
 				}
 				post.IdAddress = appAddress.IdAddress;
 			}
-			post.MaPost = "PS" + DateTime.Now.ToString("yydd") + _user.IdUser.ToString() + post.IdPost.ToString();
+			if(id != null)
+			{
+				post.IdAddress = post.IdAddress;
+				post.MaPost = post.MaPost;
+			}
+			if(id == null)
+			{
+				post.MaPost = "PS" + DateTime.Now.ToString("yydd") + _user.IdUser.ToString() + post.IdPost.ToString();
+			}
 			_BookingDbContext.Update(post);
 			_BookingDbContext.SaveChanges();
 

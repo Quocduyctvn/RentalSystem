@@ -40,21 +40,9 @@
 			@await Component.InvokeAsync("NewPost")
 
 
+
 			@* Blog new  *@
-			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
-				<div class="col ">
-					<div class="row fw-bold fs-5 mb-2">Bài viết mới</div>
-					<div class="row">
-						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-					</div>
-					<div class="row">
-						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-					</div>
-					<div class="row">
-						<div class="col p-0 py-1 hover-red"><i class="fas fa-angle-right"></i> Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div>
-					</div>
-				</div>
-			</div>
+			@await Component.InvokeAsync("NavNews")
 		</div>
 
 	</div>

@@ -31,7 +31,7 @@
 							<div class="col-3 p-0 ms-3">
 								<input type="text" name="keyword" placeholder="Tìm kiếm ngay.." class="form-control" style="border-radius: 7px 0 0 7px" />
 							</div>
-							<button type="submit" class="col-auto p-0 border border-none px-2" style="border-radius: 0 7px 7px 0">Tìm kím</button>
+							<button type="submit" class="col-auto p-0 border border-none px-2" style="border-radius: 0 7px 7px 0">Tìm Kiếm</button>
 
 						</div>
 					</form>
@@ -75,7 +75,7 @@
 												<label for="chk@(item.IdCategory)" class="position-absolute w-100 h-100 top-left hover:pointer"></label>
 											</td>
 											<td>@counter</td>
-											<td class="">@item.Name <a href="#" target="_blank"><i class="ms-2 fas fa-external-link-alt"></i></a></td>
+											<td class="">@item.Name <a asp-action="Index" asp-controller="Category" asp-area="" target="_blank"><i class="ms-2 fas fa-external-link-alt"></i></a></td>
 											<td>
 												@item.Advantage
 												<br />

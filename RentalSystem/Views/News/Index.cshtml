@@ -1,0 +1,112 @@
+﻿@using RentalSystem.ViewModels
+@model IEnumerable<RentalSystem.Models.AppNews>
+
+@{
+
+}
+
+
+@await Component.InvokeAsync("Filter")
+
+<div class="container">
+	<div class="col p-0 mx-auto">
+		<div class="row rounded-3 mt-2 pb-2 ">
+			<div class="col-auto p-0 me-1">
+				<a asp-action="Index" asp-controller="Home" class="text-primary text-decoration-none">
+					<span class="fs-6">Trang chủ </span><i class="fas fa-chevron-right"></i>
+				</a>
+			</div>
+			<div class="col-auto p-0 me-1">Tin tức</div>
+			@* <div class="col-auto p-0 me-1">Quy trình đăng ký tạm trú cho người thuê phòng trọ mới nhất</div> *@
+		</div>
+	</div>
+</div>
+<!-- end bộ lọc  -->
+<!-- Product  -->
+<div class="container mt-2">
+	<div class="row">
+		<div class="col-xxl-8  pe-3 rounded-2" style="background-color:#ededed;  height: auto">
+			<div class="col p-0 px-3">
+				<div class="row">
+					<div class="row mb-3">
+						<h4 class="fw-bold fs-3 mt-3 mb-0">Tin tức </h4>
+					</div>
+
+					@foreach (var item in Model)
+					{
+						<div class="row">
+							<div class="col-2 my-1 pe-0 position-relative" style="height: 100px">
+								<a asp-action="Detail" asp-controller="News" asp-route-id="@item.IdNews">
+									<img src="@item.CoverImg" width="100%" height="100px" />
+								</a>
+							</div>
+							<div class="col-10 ps-3  pe-4">
+								<div class=" fw-bold  ">
+									<div class="d-inline  p-0 ps-2">
+										<a asp-action="Detail" asp-controller="News" asp-route-id="@item.IdNews" class="text-decoration-none">
+											@item.Title
+										</a>
+									</div>
+								</div>
+								<div class="row mt-1 ms-1 text-secondary">
+									<div class="col-auto p-0">
+										@item.Summary
+										@{
+											int totalTime = ((int)(DateTime.Now - item.CreateDate).TotalHours);
+											if (totalTime < 24)
+											{
+												<span class=" p-0 pe-3 text-black ms-auto fw-bold pt-2" style="font-size: 14px">(Hôm nay)</span>
+											}
+											if (totalTime > 24)
+											{
+												int ngay = totalTime / 24;
+												<span class="  p-0 pe-3 text-black ms-auto fw-bold pt-2" style="font-size: 14px">(@ngay Ngày trước)</span>
+											}
+										}
+									</div>
+								</div>
+
+							</div>
+						</div>
+						<hr>
+					}
+				</div>
+			</div>
+			<!--End Thường   -->
+		</div>
+
+		@* Thanh lọc bên trái  *@
+		<div class="col-xxl-4 ms-auto ">
+			<div class="row ms-2 px-3 rounded-3 py-2 " style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Xem theo giá</div>
+
+					@await Component.InvokeAsync("NavPrice")
+
+				</div>
+			</div>
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Xem theo diện tích</div>
+					@await Component.InvokeAsync("NavArea")
+
+				</div>
+			</div>
+			<div class="row ms-2 px-3 rounded-3 py-2 mt-4" style="background-color:#ededed">
+				<div class="col ">
+					<div class="row fw-bold fs-5 mb-0">Danh mục cho thuê</div>
+					@await Component.InvokeAsync("NavPost")
+				</div>
+			</div>
+
+			@* Post new  *@
+			@await Component.InvokeAsync("NewPost")
+
+
+			@* Blog new  *@
+			@await Component.InvokeAsync("NavNews")
+		</div>
+
+	</div>
+</div>
+<!-- end Product  -->

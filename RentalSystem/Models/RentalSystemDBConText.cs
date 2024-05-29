@@ -29,6 +29,10 @@ namespace RentalSystem.Models
 		public DbSet<AppPolicy> AppPolicy { get; set; }
 		public DbSet<AppRequest> AppRequest { get; set; }
 
+		public DbSet<AppCategoryNews> AppCategoryNews  { get; set; }
+
+		public DbSet<AppNews> AppNews { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<AppPosts>()
@@ -72,6 +76,7 @@ namespace RentalSystem.Models
 				.WithMany(i=> i.appUsers)
 				.HasForeignKey(i=>i.IdRole);
 
+
 			modelBuilder.Entity<AppRolePermission>()
 				.HasOne(i => i.appRole)
 				.WithMany(i => i.appRolePermissions)
@@ -108,14 +113,26 @@ namespace RentalSystem.Models
 
             modelBuilder.Entity<AppContactFeedback>()
                 .HasOne(i => i.appRequest)
-               .WithOne(i => i.appContactFeedback)
-               .HasForeignKey<AppContactFeedback>(i => i.IdRequest)
-               .OnDelete(DeleteBehavior.Restrict);
+                .WithOne(i => i.appContactFeedback)
+                .HasForeignKey<AppContactFeedback>(i => i.IdRequest)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+
+			modelBuilder.Entity<AppNews>()
+				.HasOne(i => i.appCategoryNews)
+				.WithMany(i => i.appNews)
+				.HasForeignKey(i => i.IdCateNews);
+			modelBuilder.Entity<AppNews>()
+				.HasOne(i => i.appUser)
+				.WithMany(i => i.appNews)
+				.HasForeignKey(i => i.IdUser);
 
 
 
 
-            modelBuilder.Entity<AppPermissions>().SeedData();
+
+			modelBuilder.Entity<AppPermissions>().SeedData();
             modelBuilder.Entity<AppRoles>().SeedData();
             modelBuilder.Entity<AppUsers>().SeedData();
 			//modelBuilder.Entity<AppPaymentMethods>().SeedData();

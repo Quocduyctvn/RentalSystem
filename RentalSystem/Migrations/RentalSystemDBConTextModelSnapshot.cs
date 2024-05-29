@@ -118,6 +118,32 @@ namespace RentalSystem.Migrations
                     b.ToTable("AppCategory");
                 });
 
+            modelBuilder.Entity("RentalSystem.Models.AppCategoryNews", b =>
+                {
+                    b.Property<int>("IdCateNews")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdCateNews"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Desc")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("IdCateNews");
+
+                    b.ToTable("AppCategoryNews");
+                });
+
             modelBuilder.Entity("RentalSystem.Models.AppContactFeedback", b =>
                 {
                     b.Property<int>("IdContactFback")
@@ -267,6 +293,52 @@ namespace RentalSystem.Migrations
                     b.HasIndex("IdPost");
 
                     b.ToTable("AppImgPost");
+                });
+
+            modelBuilder.Entity("RentalSystem.Models.AppNews", b =>
+                {
+                    b.Property<int>("IdNews")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdNews"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(10000)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CoverImg")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdCateNews")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUser")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("IdNews");
+
+                    b.HasIndex("IdCateNews");
+
+                    b.HasIndex("IdUser");
+
+                    b.ToTable("AppNews");
                 });
 
             modelBuilder.Entity("RentalSystem.Models.AppPermissions", b =>
@@ -618,6 +690,105 @@ namespace RentalSystem.Migrations
                             Desc = "Xem chi tiết",
                             GroupName = "Quản lý Chính sách",
                             Table = "AppPolicy"
+                        },
+                        new
+                        {
+                            IdPermission = 1401,
+                            Code = "VIEW_LIST",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Xem danh sách",
+                            GroupName = "Quản lý loại tin tức",
+                            Table = "AppCateNews"
+                        },
+                        new
+                        {
+                            IdPermission = 1402,
+                            Code = "CREATE",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Thêm mới",
+                            GroupName = "Quản lý loại tin tức",
+                            Table = "AppCateNews"
+                        },
+                        new
+                        {
+                            IdPermission = 1403,
+                            Code = "UPDATE",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Cập nhật",
+                            GroupName = "Quản lý loại tin tức",
+                            Table = "AppCateNews"
+                        },
+                        new
+                        {
+                            IdPermission = 1404,
+                            Code = "DELETE",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Xóa danh mục",
+                            GroupName = "Quản lý loại tin tức",
+                            Table = "AppCateNews"
+                        },
+                        new
+                        {
+                            IdPermission = 1405,
+                            Code = "DELETE_LIST",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Xóa nhiều tin",
+                            GroupName = "Quản lý loại tin tức",
+                            Table = "AppCateNews"
+                        },
+                        new
+                        {
+                            IdPermission = 2101,
+                            Code = "VIEW_LIST",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Xem danh sách",
+                            GroupName = "Quản lý tin tức",
+                            Table = "AppNews"
+                        },
+                        new
+                        {
+                            IdPermission = 2102,
+                            Code = "CREATE",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Thêm mới",
+                            GroupName = "Quản lý tin tức",
+                            Table = "AppNews"
+                        },
+                        new
+                        {
+                            IdPermission = 2103,
+                            Code = "UPDATE",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Cập nhật",
+                            GroupName = "Quản lý tin tức",
+                            Table = "AppNews"
+                        },
+                        new
+                        {
+                            IdPermission = 2104,
+                            Code = "DELETE",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Xóa bài viết",
+                            GroupName = "Quản lý tin tức",
+                            Table = "AppNews"
+                        },
+                        new
+                        {
+                            IdPermission = 2105,
+                            Code = "DELETE_LIST",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Xóa nhiều tin",
+                            GroupName = "Quản lý tin tức",
+                            Table = "AppNews"
+                        },
+                        new
+                        {
+                            IdPermission = 2106,
+                            Code = "VIEW_DETAIL",
+                            CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Desc = "Xem chi tiết",
+                            GroupName = "Quản lý tin tức",
+                            Table = "AppNews"
                         });
                 });
 
@@ -1047,14 +1218,14 @@ namespace RentalSystem.Migrations
                             AccountBalance = 0.0,
                             Address = "Thành phố Cần thơ",
                             Avatar = "/Image/AvatarDefault.png",
-                            Code = "US2405171",
+                            Code = "US2405271",
                             CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "quocduyctvn@gmail.com",
                             IdRole = 2,
                             IsBlock = false,
                             LinkFB = "https://www.facebook.com/profile.php?id=100066548050837&mibextid=ZbWKwL",
                             Name = "admin",
-                            Password = "$2a$10$4OzTt/JLv2uNdwFR.WhCk.ApyPTCG3TlTHPpSJw/tEPZYdiU0e7/K",
+                            Password = "$2a$10$iRwHLr5IZBPO0Dhq1ymSiuEd8Tnj313kWLaFEuP7USAQSuoxerMCa",
                             PhoneNumberZL = "0901007221"
                         },
                         new
@@ -1063,14 +1234,14 @@ namespace RentalSystem.Migrations
                             AccountBalance = 0.0,
                             Address = "Thành phố Cần thơ",
                             Avatar = "/Image/AvatarDefault.png",
-                            Code = "US2405172",
+                            Code = "US2405272",
                             CreatedDate = new DateTime(2024, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin_test@gmail.com",
                             IdRole = 2,
                             IsBlock = false,
                             LinkFB = "",
                             Name = "admin02",
-                            Password = "$2a$10$4OzTt/JLv2uNdwFR.WhCk.ApyPTCG3TlTHPpSJw/tEPZYdiU0e7/K",
+                            Password = "$2a$10$iRwHLr5IZBPO0Dhq1ymSiuEd8Tnj313kWLaFEuP7USAQSuoxerMCa",
                             PhoneNumberZL = "0945255664"
                         });
                 });
@@ -1119,6 +1290,25 @@ namespace RentalSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("appPost");
+                });
+
+            modelBuilder.Entity("RentalSystem.Models.AppNews", b =>
+                {
+                    b.HasOne("RentalSystem.Models.AppCategoryNews", "appCategoryNews")
+                        .WithMany("appNews")
+                        .HasForeignKey("IdCateNews")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentalSystem.Models.AppUsers", "appUser")
+                        .WithMany("appNews")
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("appCategoryNews");
+
+                    b.Navigation("appUser");
                 });
 
             modelBuilder.Entity("RentalSystem.Models.AppPolicy", b =>
@@ -1233,6 +1423,11 @@ namespace RentalSystem.Migrations
                     b.Navigation("appPosts");
                 });
 
+            modelBuilder.Entity("RentalSystem.Models.AppCategoryNews", b =>
+                {
+                    b.Navigation("appNews");
+                });
+
             modelBuilder.Entity("RentalSystem.Models.AppContacts", b =>
                 {
                     b.Navigation("appContactFeedback");
@@ -1279,6 +1474,8 @@ namespace RentalSystem.Migrations
             modelBuilder.Entity("RentalSystem.Models.AppUsers", b =>
                 {
                     b.Navigation("appContactFeedback");
+
+                    b.Navigation("appNews");
 
                     b.Navigation("appPolicy");
 

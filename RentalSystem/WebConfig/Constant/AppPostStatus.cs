@@ -10,6 +10,7 @@
 		DISPLAY = 5,  // HIỂN THỊ
 		CANCEL = 6,   // HỦY
 		REPOST = 7,	  // ĐĂNG LẠI
-		UNPAID = 8,   // chưa thanh toán 
+		UNPAID = 8,   // chưa thanh toán
+		TRADING = 9, // Đang giao dịch
 	}
 }
